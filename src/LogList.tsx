@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { Log, useStore } from "./lib/store";
 import { getFromMapAtPath } from "./lib/getFromMapAtPath";
 
