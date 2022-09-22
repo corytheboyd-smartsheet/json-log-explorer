@@ -5,15 +5,11 @@ export const getPaths = (object: JsonLike, currentPathParts: string[] = []): str
 
   if (object instanceof Map) {
     for(const key of object.keys()) {
-      const newPath = [...currentPathParts, key].join('.');
-      paths.add(newPath)
-
+      paths.add([...currentPathParts, key].join('.'))
       const value = object.get(key)
       if (value) {
         getPaths(value, [...currentPathParts, key])
           .forEach(path => paths.add(path))
-      } else {
-        return Array.from(paths);
       }
     }
   } else if (object instanceof Array) {

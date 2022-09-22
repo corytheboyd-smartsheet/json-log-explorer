@@ -15,13 +15,10 @@ const useStore = create<AppStore>((set, get) => ({
   logs: [],
   paths: new Set(),
   appendLog: (log) => {
-    console.log('log', log)
-
     const { logs, paths } = get();
 
     const newPaths = new Set(paths);
     getPaths(log).forEach((path) => newPaths.add(path))
-    console.log('newPaths', newPaths)
 
     set({
       paths: newPaths,
@@ -61,3 +58,40 @@ function App() {
 }
 
 export default App;
+
+// const object = {
+//   "dd": {
+//     "trace_id": "3463073768481979146",
+//     "span_id": "3504612468142539690"
+//   },
+//   "ddsource": [
+//     "ruby"
+//   ],
+//   "audit": false,
+//   "lvl": "INFO",
+//   "ts": 1663797107.346173,
+//   "rails_console": false,
+//   "context": {
+//     "priority": "low",
+//     "request_id": "5a63e4a6-ba32-4361-934e-565eaaa321ac",
+//     "skip_indexing": false,
+//     "skip_notifications": false
+//   },
+//   "custom_event": {
+//     "event": "fail_svc_filemover!",
+//     "message": "status changed from `waiting_for_svc_filemover_move` to `failed_svc_filemover_move`",
+//     "from_state": "waiting_for_svc_filemover_move",
+//     "to_state": "failed_svc_filemover_move",
+//     "attachment_key": "7kjs9gps3q56gbfsgfrjsz",
+//     "version_id": 59,
+//     "identifier": "attachment.status_machine",
+//     "groups": [
+//       "attachment:ingest"
+//     ]
+//   }
+// }
+// console.debug('OBJECT', object)
+// const map = createMapFromObject(object)
+// console.debug('MAP', map)
+// const paths = getPaths(map)
+// console.debug('PATHS', paths)
