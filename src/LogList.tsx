@@ -44,10 +44,13 @@ export const LogList: React.FC = () => {
   const logs = useStore((store) => store.logs);
   const selectedPaths = useStore((store) => Array.from(store.selectedPaths));
   const setSelectedLog = useStore((store) => store.setSelectedLog);
-  const selectedLogIndex = useStore((store) => store.selectedLogIndex);
+  const selectedLog = useStore((store) => store.selectedLog);
 
-  const isSelected = (logIndex: number): boolean => {
-    return selectedLogIndex === logIndex;
+  const isSelected = (log: Log): boolean => {
+    if (!selectedLog) {
+      return false;
+    }
+    return selectedLog.data.get("ts") === log.data.get("ts");
   };
 
   return (
@@ -63,7 +66,7 @@ export const LogList: React.FC = () => {
         <tbody>
           {logs.map((log, index) => {
             let selectedClasses = "";
-            if (isSelected(index)) {
+            if (isSelected(log)) {
               selectedClasses = "bg-blue-600 even:bg-blue-600";
             }
 
@@ -71,7 +74,7 @@ export const LogList: React.FC = () => {
               <tr
                 key={index}
                 className={`even:bg-gray-600 bg-gray-700 hover:bg-amber-600 cursor-pointer ${selectedClasses}`}
-                onClick={() => setSelectedLog(log, index)}
+                onClick={() => setSelectedLog(log)}
               >
                 {selectedPaths.map((path) => (
                   <DataCell key={`${path}-data`} value={render(log, path)} />
