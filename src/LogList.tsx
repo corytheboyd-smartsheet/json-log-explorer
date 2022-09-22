@@ -23,6 +23,8 @@ const DataCell: React.FC<{ value: string; isDate?: boolean }> = ({
 };
 
 const render = (log: Log, path: string) => {
+  return JSON.stringify(getFromMapAtPath(log.data, path));
+
   if (path === "ts") {
     const value = getFromMapAtPath(log.data, path) as number;
     let result;
@@ -42,6 +44,11 @@ export const LogList: React.FC = () => {
   const logs = useStore((store) => store.logs);
   const selectedPaths = useStore((store) => Array.from(store.selectedPaths));
   const setSelectedLog = useStore((store) => store.setSelectedLog);
+  const selectedLogIndex = useStore((store) => store.selectedLogIndex);
+
+  const isSelected = (logIndex: number): boolean => {
+    return selectedLogIndex === logIndex;
+  };
 
   return (
     <div className="w-full">
@@ -54,17 +61,24 @@ export const LogList: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {logs.map((log, index) => (
-            <tr
-              key={index}
-              className="even:bg-gray-600 bg-gray-700 hover:bg-amber-600 cursor-pointer"
-              onClick={() => setSelectedLog(log)}
-            >
-              {selectedPaths.map((path) => (
-                <DataCell key={`${path}-data`} value={render(log, path)} />
-              ))}
-            </tr>
-          ))}
+          {logs.map((log, index) => {
+            let selectedClasses = "";
+            if (isSelected(index)) {
+              selectedClasses = "bg-blue-600 even:bg-blue-600";
+            }
+
+            return (
+              <tr
+                key={index}
+                className={`even:bg-gray-600 bg-gray-700 hover:bg-amber-600 cursor-pointer ${selectedClasses}`}
+                onClick={() => setSelectedLog(log, index)}
+              >
+                {selectedPaths.map((path) => (
+                  <DataCell key={`${path}-data`} value={render(log, path)} />
+                ))}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
