@@ -10,7 +10,7 @@ export const SelectedLogView: React.FC = () => {
   }
 
   return (
-    <div className="bg-gray-100 text-gray-800 p-3 shadow-lg flex flex-col space-y-3">
+    <div className="bg-gray-100 text-gray-800 p-3 shadow-lg flex flex-col space-y-3 max-w-xl">
       <div className="flex justify-end">
         <button
           className="bg-gray-300 rounded px-5 py-2"
@@ -19,7 +19,7 @@ export const SelectedLogView: React.FC = () => {
           Close
         </button>
       </div>
-      <pre className="text-xs bg-gray-600 text-gray-100 p-2 rounded shadow-inner">
+      <pre className="text-xs bg-gray-600 text-gray-100 p-2 rounded shadow-inner overflow-scroll">
         <code>{JSON.stringify(selectedLog.raw, null, 2)}</code>
       </pre>
     </div>
