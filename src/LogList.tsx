@@ -1,9 +1,10 @@
 import React from "react";
 import { useStore } from "./lib/store";
 import { JsonPrimitive } from "./lib/jsonTypes";
+import { getFromMapAtPath } from "./lib/getFromMapAtPath";
 
 const Header: React.FC<{ label: string }> = ({ label }) => (
-  <th>
+  <th className="text-sm">
     {label}
   </th>
 )
@@ -11,7 +12,7 @@ const Header: React.FC<{ label: string }> = ({ label }) => (
 const DataCell: React.FC<{ value: JsonPrimitive }> = ({ value }) => {
   return (
     <td className="text-sm">
-      {value}
+      <code>{value}</code>
     </td>
   );
 }
@@ -19,27 +20,30 @@ const DataCell: React.FC<{ value: JsonPrimitive }> = ({ value }) => {
 export const LogList: React.FC = () => {
   const showContentColumn = useStore(store => store.showContentColumn)
   const logs = useStore(store => store.logs)
-  const selectedPaths = useStore(store => store.selectedPaths)
+  const selectedPaths = useStore(store => Array.from(store.selectedPaths))
 
   return (
     <div className="w-full">
-      <table className="table-auto w-full">
+      <table className="table-auto w-full text-left">
         <thead>
           {showContentColumn && (
             <tr>
               <Header label="Content" />
             </tr>
           )}
-          {Array.from(selectedPaths).map((path) => (
-            <Header label={path} />
+          {selectedPaths.map((path) => (
+            <Header key={`${path}-header`} label={path} />
           ))}
         </thead>
         <tbody>
         {logs.map((log, index) => (
-          <tr key={index} className="bg-yellow-200 even:bg-yellow-50 whitespace-nowrap overflow-ellipsis">
+          <tr key={index} className="bg-yellow-100 even:bg-yellow-50">
             {showContentColumn && (
               <DataCell value={JSON.stringify(log.raw)} />
             )}
+            {selectedPaths.map((path) => (
+              <DataCell key={`${path}-data`} value={JSON.stringify(getFromMapAtPath(log.data, path))} />
+            ))}
           </tr>
         ))}
         </tbody>

@@ -12,19 +12,21 @@ type AppStore = {
   logs: Log[];
   rawLogs: Object[];
   paths: Set<string>;
+  selectedPaths: Set<string>;
   showContentColumn: boolean;
   setShowContentColumn: (value: boolean) => void;
-  selectedPaths: Set<string>;
   addLog: (raw: Object) => void;
+  addSelectedPath: (path: string) => void;
+  removeSelectedPath: (path: string) => void;
 }
 
 export const useStore = create<AppStore>((set, get) => ({
   logs: [],
   rawLogs: [],
   paths: new Set(),
-  showContentColumn: true,
-  setShowContentColumn: (value) => set({ showContentColumn: value }),
   selectedPaths: new Set(),
+  showContentColumn: false,
+  setShowContentColumn: (value) => set({ showContentColumn: value }),
   addLog: (raw) => {
     const { logs, paths } = get();
 
@@ -42,5 +44,21 @@ export const useStore = create<AppStore>((set, get) => ({
       paths: newPaths,
       logs: [log, ...logs]
     });
+  },
+  addSelectedPath: (path) => {
+    const { selectedPaths } = get();
+
+    const newPaths = new Set(Array.from(selectedPaths))
+    newPaths.add(path)
+
+    set({ selectedPaths: newPaths })
+  },
+  removeSelectedPath: (path) => {
+    const { selectedPaths } = get();
+
+    const newPaths = new Set(Array.from(selectedPaths))
+    newPaths.delete(path)
+
+    set({ selectedPaths: newPaths })
   }
 }));
