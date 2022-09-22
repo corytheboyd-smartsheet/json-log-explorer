@@ -16,7 +16,7 @@ const DataCell: React.FC<{ value: string; isDate?: boolean }> = ({
   }
 
   return (
-    <td className="text-sm">
+    <td className="text-xs">
       <code>{rendered}</code>
     </td>
   );
