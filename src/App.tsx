@@ -1,22 +1,26 @@
 import React, { useCallback } from "react";
-import './socket'
+import "./socket";
 import { LogList } from "./LogList";
 import { PathList } from "./PathList";
 import { useStore } from "./lib/store";
+import { SelectedLogView } from "./SelectedLogView";
 
 function App() {
-  const clearSelectedPaths = useStore(store => store.clearSelectedPaths)
-  const clearLogs = useStore(store => store.clearLogs)
-  const isLogsEmpty = useStore(store => store.logs.length === 0)
-  const isSelectedPathsEmpty = useStore(store => store.selectedPaths.size === 0)
+  const clearSelectedPaths = useStore((store) => store.clearSelectedPaths);
+  const clearLogs = useStore((store) => store.clearLogs);
+  const isLogsEmpty = useStore((store) => store.logs.length === 0);
+  const isSelectedPathsEmpty = useStore(
+    (store) => store.selectedPaths.size === 0
+  );
+  const selectedLog = useStore((store) => store.selectedLog);
 
   const handleClearSelectedPaths = useCallback(() => {
     clearSelectedPaths();
-  }, [clearSelectedPaths])
+  }, [clearSelectedPaths]);
 
   const handleClearLogs = useCallback(() => {
     clearLogs();
-  }, [clearLogs])
+  }, [clearLogs]);
 
   return (
     <div className="h-screen w-screen bg-gray-800">
@@ -25,14 +29,25 @@ function App() {
           <div>
             <div className="font-bold text-center">Actions</div>
             <div className="flex flex-col w-full px-3 space-y-1 text-sm">
-              <button className="bg-red-500 rounded text-white" onClick={handleClearLogs}>Delete Logs</button>
-              <button className="bg-blue-500 rounded text-white" onClick={handleClearSelectedPaths}>Unselect All Paths</button>
+              <button
+                className="bg-red-500 rounded text-white"
+                onClick={handleClearLogs}
+              >
+                Delete Logs
+              </button>
+              <button
+                className="bg-blue-500 rounded text-white"
+                onClick={handleClearSelectedPaths}
+              >
+                Unselect All Paths
+              </button>
             </div>
           </div>
           <div>
             <PathList />
           </div>
         </div>
+
         <div className="p-1 text-gray-100 flex-grow flex flex-col overflow-hidden">
           {isLogsEmpty && (
             <div>
@@ -41,13 +56,15 @@ function App() {
           )}
           {isSelectedPathsEmpty && (
             <div>
-              <p className="text-lg text-amber-500">Select some extracted paths to show values from logs</p>
+              <p className="text-lg text-amber-500">
+                Select some extracted paths to show values from logs
+              </p>
             </div>
           )}
-          {!isSelectedPathsEmpty && !isLogsEmpty && (
-            <LogList />
-          )}
+          {!isSelectedPathsEmpty && !isLogsEmpty && <LogList />}
         </div>
+
+        {selectedLog && <SelectedLogView />}
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Log, useStore } from "./lib/store";
 import { getFromMapAtPath } from "./lib/getFromMapAtPath";
-import { JsonObject } from "./lib/jsonTypes";
 
 const Header: React.FC<{ label: string }> = ({ label }) => (
   <th className="text-sm">{label}</th>
@@ -35,6 +34,7 @@ const render = (log: Log, path: string) => {
 export const LogList: React.FC = () => {
   const logs = useStore((store) => store.logs);
   const selectedPaths = useStore((store) => Array.from(store.selectedPaths));
+  const setSelectedLog = useStore((store) => store.setSelectedLog);
 
   return (
     <div className="w-full">
@@ -46,7 +46,11 @@ export const LogList: React.FC = () => {
         </thead>
         <tbody>
           {logs.map((log, index) => (
-            <tr key={index} className="even:bg-gray-600 bg-gray-700">
+            <tr
+              key={index}
+              className="even:bg-gray-600 bg-gray-700 hover:bg-amber-600 cursor-pointer"
+              onClick={() => setSelectedLog(log)}
+            >
               {selectedPaths.map((path) => (
                 <DataCell key={`${path}-data`} value={render(log, path)} />
               ))}
