@@ -10,7 +10,7 @@ const Header: React.FC<{ label: string }> = ({ label }) => (
 
 const DataCell: React.FC<{ value: JsonPrimitive }> = ({ value }) => {
   return (
-    <td>
+    <td className="text-sm">
       {value}
     </td>
   );
@@ -36,7 +36,7 @@ export const LogList: React.FC = () => {
         </thead>
         <tbody>
         {logs.map((log, index) => (
-          <tr key={index} className="bg-yellow-200 even:bg-yellow-50">
+          <tr key={index} className="bg-yellow-200 even:bg-yellow-50 whitespace-nowrap overflow-ellipsis">
             {showContentColumn && (
               <DataCell value={JSON.stringify(log.raw)} />
             )}

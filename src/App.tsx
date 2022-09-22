@@ -8,25 +8,25 @@ function App() {
   const showContentColumn = useStore(store => store.showContentColumn)
   const setShowContentColumn = useStore(store => store.setShowContentColumn)
 
-  const handleClickShowContentColumn = useCallback(() => {
+  const handleToggleShowContentColumn = useCallback(() => {
     setShowContentColumn(!showContentColumn);
   }, [setShowContentColumn, showContentColumn]);
 
   return (
     <div className="bg-amber-50 h-screen w-screen">
       <div className="flex">
-        <div className="bg-red-200 h-screen flex flex-col">
+        <div className="h-screen flex flex-col">
           <div className="bg-green-200">
             <div>
               <label htmlFor="showContentColumn">Show Content Column</label>
-              <input id="showContentColumn" type="checkbox" onChange={handleClickShowContentColumn} checked={showContentColumn} />
+              <input id="showContentColumn" type="checkbox" onChange={handleToggleShowContentColumn} checked={showContentColumn} />
             </div>
           </div>
-          <div>
+          <div className="h-full bg-red-200">
             <PathList />
           </div>
         </div>
-        <div className="bg-blue-200 flex flex-col w-screen">
+        <div className="bg-blue-200 flex-grow flex flex-col overflow-hidden">
           <LogList />
         </div>
       </div>
