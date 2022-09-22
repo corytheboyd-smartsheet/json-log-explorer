@@ -16,6 +16,8 @@ type AppStore = {
   addLog: (raw: Object) => void;
   addSelectedPath: (path: string) => void;
   removeSelectedPath: (path: string) => void;
+  clearSelectedPaths: () => void;
+  clearLogs: () => void;
 }
 
 export const useStore = create<AppStore>((set, get) => ({
@@ -56,5 +58,11 @@ export const useStore = create<AppStore>((set, get) => ({
     newPaths.delete(path)
 
     set({ selectedPaths: newPaths })
+  },
+  clearSelectedPaths: () => {
+    set({ selectedPaths: new Set() })
+  },
+  clearLogs: () => {
+    set({ logs: [] })
   }
 }));

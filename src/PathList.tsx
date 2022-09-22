@@ -18,11 +18,11 @@ const Path: React.FC<{path: string}> = ({path}) => {
 
   let selectedClasses = ''
   if (isSelected) {
-    selectedClasses = 'bg-red-500 text-white'
+    selectedClasses = 'bg-amber-200'
   }
 
   return (
-    <li className={`${selectedClasses} hover:bg-red-300 transition-colors cursor-pointer`} onClick={handleClick}><code>{path}</code></li>
+    <li className={`${selectedClasses} hover:bg-amber-50 transition-colors cursor-pointer`} onClick={handleClick}><code>{path}</code></li>
   )
 }
 

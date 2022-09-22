@@ -31,7 +31,7 @@ export const LogList: React.FC = () => {
         </thead>
         <tbody>
         {logs.map((log, index) => (
-          <tr key={index} className="bg-yellow-100 even:bg-yellow-50">
+          <tr key={index} className="even:bg-gray-600 bg-gray-700">
             {selectedPaths.map((path) => (
               <DataCell key={`${path}-data`} value={JSON.stringify(getFromMapAtPath(log.data, path))} />
             ))}
