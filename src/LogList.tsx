@@ -30,7 +30,7 @@ const render = (log: Log, path: string) => {
       result = new Date(value * 1000).toISOString();
     } catch (e) {
       console.warn("Failed to render date", value, e);
-      result = value;
+      result = (value || "").toString();
     }
     return result;
   } else {
