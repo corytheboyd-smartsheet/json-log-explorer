@@ -3,10 +3,10 @@ import create from "zustand";
 import { getPaths } from "./getPaths";
 import { createMapFromObject } from "./createMapFromObject";
 
-type Log = {
+export type Log = {
   raw: Object;
   data: JsonObject;
-}
+};
 
 type AppStore = {
   logs: Log[];
@@ -18,7 +18,7 @@ type AppStore = {
   removeSelectedPath: (path: string) => void;
   clearSelectedPaths: () => void;
   clearLogs: () => void;
-}
+};
 
 export const useStore = create<AppStore>((set, get) => ({
   logs: [],
@@ -31,38 +31,38 @@ export const useStore = create<AppStore>((set, get) => ({
     const map = createMapFromObject(raw);
 
     const newPaths = new Set(paths);
-    getPaths(map).forEach((path) => newPaths.add(path))
+    getPaths(map).forEach((path) => newPaths.add(path));
 
     const log = {
       raw: raw,
       data: map,
-    }
+    };
 
     set({
       paths: newPaths,
-      logs: [log, ...logs]
+      logs: [log, ...logs],
     });
   },
   addSelectedPath: (path) => {
     const { selectedPaths } = get();
 
-    const newPaths = new Set(Array.from(selectedPaths))
-    newPaths.add(path)
+    const newPaths = new Set(Array.from(selectedPaths));
+    newPaths.add(path);
 
-    set({ selectedPaths: newPaths })
+    set({ selectedPaths: newPaths });
   },
   removeSelectedPath: (path) => {
     const { selectedPaths } = get();
 
-    const newPaths = new Set(Array.from(selectedPaths))
-    newPaths.delete(path)
+    const newPaths = new Set(Array.from(selectedPaths));
+    newPaths.delete(path);
 
-    set({ selectedPaths: newPaths })
+    set({ selectedPaths: newPaths });
   },
   clearSelectedPaths: () => {
-    set({ selectedPaths: new Set() })
+    set({ selectedPaths: new Set() });
   },
   clearLogs: () => {
-    set({ logs: [] })
-  }
+    set({ logs: [] });
+  },
 }));

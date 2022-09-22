@@ -36,7 +36,7 @@ function App() {
         <div className="p-1 text-gray-100 flex-grow flex flex-col overflow-hidden">
           {isLogsEmpty && (
             <div>
-              <p className="text-lg text-amber-500">No logs yet (reload when you get some logs, son)</p>
+              <p className="text-lg text-amber-500">No logs yet, yo</p>
             </div>
           )}
           {isSelectedPathsEmpty && (
