@@ -22,7 +22,7 @@ const Path: React.FC<{path: string}> = ({path}) => {
   }
 
   return (
-    <li className={`${selectedClasses} hover:bg-red-300 transition-colors cursor-pointer`} onClick={handleClick}>{path}</li>
+    <li className={`${selectedClasses} hover:bg-red-300 transition-colors cursor-pointer`} onClick={handleClick}><code>{path}</code></li>
   )
 }
 
@@ -30,12 +30,15 @@ export const PathList: React.FC = () => {
   const paths = useStore(store => store.paths)
 
   return(
-    <div>
-      <ul>
-        {Array.from(paths).map(path => (
-          <Path key={path} path={path} />
-        ))}
-      </ul>
+    <div className="space-y-2">
+      <div className="font-bold text-center">Extracted Paths</div>
+      <div className="px-2">
+        <ul className="space-y-0.5 text-xs">
+          {Array.from(paths).map(path => (
+            <Path key={path} path={path} />
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }

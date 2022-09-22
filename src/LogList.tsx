@@ -18,7 +18,6 @@ const DataCell: React.FC<{ value: JsonPrimitive }> = ({ value }) => {
 }
 
 export const LogList: React.FC = () => {
-  const showContentColumn = useStore(store => store.showContentColumn)
   const logs = useStore(store => store.logs)
   const selectedPaths = useStore(store => Array.from(store.selectedPaths))
 
@@ -26,11 +25,6 @@ export const LogList: React.FC = () => {
     <div className="w-full">
       <table className="table-auto w-full text-left">
         <thead>
-          {showContentColumn && (
-            <tr>
-              <Header label="Content" />
-            </tr>
-          )}
           {selectedPaths.map((path) => (
             <Header key={`${path}-header`} label={path} />
           ))}
@@ -38,9 +32,6 @@ export const LogList: React.FC = () => {
         <tbody>
         {logs.map((log, index) => (
           <tr key={index} className="bg-yellow-100 even:bg-yellow-50">
-            {showContentColumn && (
-              <DataCell value={JSON.stringify(log.raw)} />
-            )}
             {selectedPaths.map((path) => (
               <DataCell key={`${path}-data`} value={JSON.stringify(getFromMapAtPath(log.data, path))} />
             ))}
