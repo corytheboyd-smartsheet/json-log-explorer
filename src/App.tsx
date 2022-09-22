@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import create from "zustand";
 import { JsonObject } from "./lib/jsonTypes";
 import { getPaths } from "./lib/getPaths";
@@ -8,12 +7,14 @@ import { createMapFromObject } from "./lib/createMapFromObject";
 type AppStore = {
   logs: JsonObject[];
   paths: Set<string>;
+  selectedPaths: Set<string>;
   appendLog: (log: JsonObject) => void;
 }
 
 const useStore = create<AppStore>((set, get) => ({
   logs: [],
   paths: new Set(),
+  selectedPaths: new Set(),
   appendLog: (log) => {
     const { logs, paths } = get();
 
@@ -47,12 +48,25 @@ function App() {
   const { logs, paths } = useStore();
 
   return (
-    <div className="App">
-      <code>{JSON.stringify(Array.from(paths))}</code>
+    <div className="bg-amber-50 h-screen w-screen">
+      <div className="flex">
+        <div className="bg-red-200 h-screen">
+          <ul>
+            {Array.from(paths).map(path => (
+              <li key={path}>{path}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="bg-blue-200 flex flex-col w-screen">
+          {logs.map((log, index) => (
+            <div className="bg-green-200 odd:bg-orange-200" key={index}>
+              <code>{JSON.stringify(Object.fromEntries(Array.from(log)))}</code>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <hr/>
-      {logs.map((log, index) => (
-        <code key={index}>{JSON.stringify(log.get('custom_event'))}</code>
-      ))}
     </div>
   );
 }
