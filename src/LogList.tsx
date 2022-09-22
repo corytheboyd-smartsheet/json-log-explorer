@@ -25,7 +25,14 @@ const DataCell: React.FC<{ value: string; isDate?: boolean }> = ({
 const render = (log: Log, path: string) => {
   if (path === "ts") {
     const value = getFromMapAtPath(log.data, path) as number;
-    return new Date(value * 1000).toISOString();
+    let result;
+    try {
+      result = new Date(value * 1000).toISOString();
+    } catch (e) {
+      console.warn("Failed to render date", value, e);
+      result = value;
+    }
+    return result;
   } else {
     return JSON.stringify(getFromMapAtPath(log.data, path));
   }
@@ -40,9 +47,11 @@ export const LogList: React.FC = () => {
     <div className="w-full">
       <table className="table-auto w-full text-left">
         <thead>
-          {selectedPaths.map((path) => (
-            <Header key={`${path}-header`} label={path} />
-          ))}
+          <tr>
+            {selectedPaths.map((path) => (
+              <Header key={`${path}-header`} label={path} />
+            ))}
+          </tr>
         </thead>
         <tbody>
           {logs.map((log, index) => (
