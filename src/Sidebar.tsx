@@ -25,7 +25,7 @@ export const Sidebar: React.FC = () => {
   }, [setSidebarCollapsed]);
 
   return (
-    <div className="h-screen flex flex-col space-y-3 bg-gray-100 shadow overflow-scroll pb-10">
+    <div className="h-screen flex flex-col space-y-3 bg-gray-100 shadow overflow-scroll">
       {sidebarCollapsed && (
         <div className="bg-gray-500 h-screen p-1 flex flex-col space-y-2">
           <button

@@ -15,6 +15,7 @@ type AppStore = {
   selectedPaths: Set<string>;
   selectedLog: Log | null;
   sidebarCollapsed: boolean;
+  pathSearchQuery: string;
   addLog: (raw: Object) => void;
   addSelectedPath: (path: string) => void;
   removeSelectedPath: (path: string) => void;
@@ -23,6 +24,7 @@ type AppStore = {
   setSelectedLog: (log: Log) => void;
   clearSelectedLog: () => void;
   setSidebarCollapsed: (value: boolean) => void;
+  setPathSearchQuery: (query: string) => void;
 };
 
 export const useStore = create<AppStore>((set, get) => ({
@@ -32,6 +34,7 @@ export const useStore = create<AppStore>((set, get) => ({
   selectedPaths: new Set(),
   selectedLog: null,
   sidebarCollapsed: false,
+  pathSearchQuery: "",
   addLog: (raw) => {
     const { logs, paths } = get();
 
@@ -75,4 +78,5 @@ export const useStore = create<AppStore>((set, get) => ({
   setSelectedLog: (log) => set({ selectedLog: log }),
   clearSelectedLog: () => set({ selectedLog: null }),
   setSidebarCollapsed: (value) => set({ sidebarCollapsed: value }),
+  setPathSearchQuery: (query) => set({ pathSearchQuery: query }),
 }));
