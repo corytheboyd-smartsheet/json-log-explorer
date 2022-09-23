@@ -19,7 +19,7 @@ export const SelectedLogView: React.FC = () => {
           Close
         </button>
       </div>
-      <pre className="text-xs bg-gray-600 text-gray-100 p-2 h-full rounded shadow-inner overflow-scroll">
+      <pre className="text-xs bg-gray-600 text-gray-100 p-2 h-fit rounded shadow-inner overflow-scroll">
         <code>{JSON.stringify(selectedLog.raw, null, 2)}</code>
       </pre>
     </div>
