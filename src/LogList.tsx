@@ -54,7 +54,7 @@ export const LogList: React.FC = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full h-screen overflow-scroll whitespace-nowrap">
       <table className="table-auto w-full text-left">
         <thead>
           <tr>
