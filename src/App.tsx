@@ -1,7 +1,7 @@
-import React, { useCallback } from "react";
+import React from "react";
 import "./socket";
 import { LogList } from "./LogList";
-import { PathList } from "./PathList";
+import numeral from "numeral";
 import { useStore } from "./lib/store";
 import { SelectedLogView } from "./SelectedLogView";
 import { Sidebar } from "./Sidebar";
@@ -12,6 +12,7 @@ function App() {
     (store) => store.selectedPaths.size === 0
   );
   const selectedLog = useStore((store) => store.selectedLog);
+  const numLogs = useStore((store) => store.logs.length);
 
   return (
     <div className="h-screen w-screen bg-gray-800">
@@ -31,7 +32,14 @@ function App() {
               </p>
             </div>
           )}
-          {!isSelectedPathsEmpty && !isLogsEmpty && <LogList />}
+          {!isSelectedPathsEmpty && !isLogsEmpty && (
+            <>
+              <div>
+                <strong>{numeral(numLogs).format("0,0")}</strong> logs found
+              </div>
+              <LogList />
+            </>
+          )}
         </div>
 
         {selectedLog && <SelectedLogView />}
