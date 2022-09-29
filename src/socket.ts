@@ -1,6 +1,6 @@
 import { useStore } from "./lib/store";
 
-const socket = new WebSocket("ws://localhost:3100");
+const socket = new WebSocket("ws://localhost:3010");
 socket.onopen = (event) => {
   console.log("open", event);
 };
