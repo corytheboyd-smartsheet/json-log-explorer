@@ -1,7 +1,7 @@
 import { PathList } from "./PathList";
 import React from "react";
 import { useStore } from "../lib/store";
-import { ExclusionList } from "./ExclusionList";
+import { FilterList } from "./FilterList";
 import { GlobalActions } from "./GlobalActions";
 import classNames from "classnames";
 
@@ -22,7 +22,7 @@ export const Sidebar: React.FC = () => {
 
         {!sidebarCollapsed && (
           <>
-            <ExclusionList />
+            <FilterList />
             <PathList />
           </>
         )}
