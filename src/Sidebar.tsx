@@ -25,7 +25,7 @@ export const Sidebar: React.FC = () => {
   }, [setSidebarCollapsed]);
 
   return (
-    <div className="h-screen flex flex-col space-y-3 bg-gray-100 shadow overflow-scroll">
+    <div className="h-screen flex flex-col flex-shrink-0 space-y-3 bg-gray-100 overflow-scroll">
       {sidebarCollapsed && (
         <div className="bg-gray-500 h-screen p-1 flex flex-col space-y-2">
           <button
@@ -44,7 +44,7 @@ export const Sidebar: React.FC = () => {
       )}
 
       {!sidebarCollapsed && (
-        <>
+        <div className="w-96">
           <div>
             <div className="font-bold text-center">Actions</div>
             <div className="flex flex-col w-full px-3 space-y-1 text-sm">
@@ -71,7 +71,7 @@ export const Sidebar: React.FC = () => {
           <div>
             <PathList />
           </div>
-        </>
+        </div>
       )}
     </div>
   );

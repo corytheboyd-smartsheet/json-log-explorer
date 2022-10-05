@@ -19,7 +19,7 @@ function App() {
       <div className="flex">
         <Sidebar />
 
-        <div className="p-1 text-gray-100 flex-grow flex flex-col overflow-hidden">
+        <div className="h-screen p-1 text-gray-100 flex-grow flex flex-col">
           {isLogsEmpty && (
             <div>
               <p className="text-lg text-amber-500">No logs yet, yo</p>

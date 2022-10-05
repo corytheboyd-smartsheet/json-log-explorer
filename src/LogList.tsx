@@ -54,8 +54,8 @@ export const LogList: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-screen overflow-scroll whitespace-nowrap">
-      <table className="table-auto w-full text-left">
+    <div className="w-full overflow-scroll">
+      <table className="table-auto w-full text-left whitespace-nowrap">
         <thead>
           <tr>
             {selectedPaths.map((path) => (
