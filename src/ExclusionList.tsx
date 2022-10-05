@@ -1,16 +1,20 @@
-import React from "react";
+import React, { FormEvent } from "react";
+import { SidebarSection } from "./ui/SidebarSection";
 
 export const ExclusionList: React.FC = () => {
+  const handleCreateExclusion = (event: FormEvent) => {
+    event.preventDefault();
+  };
+
   return (
-    <div>
-      <div className="font-bold text-center">Exclusions</div>
-      <div className="flex">
+    <SidebarSection title="Exclusions">
+      <form onSubmit={handleCreateExclusion}>
         <input
-          type="search"
+          type="text"
           placeholder="foo.bar.baz"
           className="text-sm border-gray-500 border-2 rounded w-full"
         />
-      </div>
-    </div>
+      </form>
+    </SidebarSection>
   );
 };

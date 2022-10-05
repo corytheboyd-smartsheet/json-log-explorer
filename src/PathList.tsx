@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { useStore } from "./lib/store";
 import { SidebarButton } from "./ui/SidebarButton";
+import { SidebarSection } from "./ui/SidebarSection";
 
 const Path: React.FC<{ path: string }> = ({ path }) => {
   const addSelectedPath = useStore((store) => store.addSelectedPath);
@@ -47,28 +48,29 @@ export const PathList: React.FC = () => {
   );
 
   return (
-    <div className="space-y-2">
-      <div className="font-bold text-center">Paths</div>
-      <SidebarButton
-        onClick={handleClearSelectedPaths}
-        buttonClassNames="bg-blue-500"
-      >
-        Unselect All Paths
-      </SidebarButton>
-      <div className="flex">
-        <input
-          type="search"
-          placeholder="foo.bar.baz"
-          className="text-sm border-gray-500 border-2 rounded w-full"
-          value={pathSearchQuery}
-          onChange={(e) => setPathSearchQuery(e.target.value)}
-        />
+    <SidebarSection title="Paths">
+      <div className="space-y-2">
+        <SidebarButton
+          onClick={handleClearSelectedPaths}
+          buttonClassNames="bg-blue-500"
+        >
+          Unselect All Paths
+        </SidebarButton>
+        <div>
+          <input
+            type="search"
+            placeholder="foo.bar.baz"
+            className="text-sm border-gray-500 border-2 rounded w-full"
+            value={pathSearchQuery}
+            onChange={(e) => setPathSearchQuery(e.target.value)}
+          />
+        </div>
+        <ul className="space-y-0.5 text-xs pb-10">
+          {filteredPaths.map((path) => (
+            <Path key={path} path={path} />
+          ))}
+        </ul>
       </div>
-      <ul className="space-y-0.5 text-xs pb-10">
-        {filteredPaths.map((path) => (
-          <Path key={path} path={path} />
-        ))}
-      </ul>
-    </div>
+    </SidebarSection>
   );
 };
