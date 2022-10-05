@@ -3,6 +3,7 @@ import { SidebarSection } from "../ui/SidebarSection";
 import { useStore } from "../lib/store";
 import classNames from "classnames";
 import { Button } from "../ui/Button";
+import { Input } from "../ui/Input";
 
 const ValueMatchForm: React.FC = () => {
   const selectedPaths = useStore((state) => state.selectedPaths);
@@ -48,10 +49,9 @@ const ValueMatchForm: React.FC = () => {
             </select>
           </div>
 
-          <input
+          <Input
             type="text"
             placeholder="Filter match value..."
-            className="border-gray-500 border-2 rounded w-full h-full px-1 border-none"
             disabled={isDisabled}
           />
         </div>

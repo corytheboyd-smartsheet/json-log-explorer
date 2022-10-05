@@ -4,6 +4,7 @@ import { useStore } from "../lib/store";
 import { FilterList } from "./FilterList";
 import { GlobalActions } from "./GlobalActions";
 import classNames from "classnames";
+import { Connections } from "./Connections";
 
 export const Sidebar: React.FC = () => {
   const sidebarCollapsed = useStore((store) => store.sidebarCollapsed);
@@ -22,6 +23,7 @@ export const Sidebar: React.FC = () => {
 
         {!sidebarCollapsed && (
           <>
+            <Connections />
             <FilterList />
             <PathList />
           </>

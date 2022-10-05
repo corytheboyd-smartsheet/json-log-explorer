@@ -84,20 +84,29 @@ const LogTable: React.FC = () => {
 };
 
 export const LogList: React.FC = () => {
+  const areConnectionsPresent = useStore(
+    (state) => Object.keys(state.connections).length > 0
+  );
   const arePathsSelected = useStore((state) => state.selectedPaths.size > 0);
   const areLogsPresent = useStore((state) => state.logs.length > 0);
 
-  const showLogsTable = areLogsPresent && arePathsSelected;
+  const showLogsTable =
+    areConnectionsPresent && areLogsPresent && arePathsSelected;
 
   return (
     <div className="w-full overflow-scroll">
       {!showLogsTable && (
         <div className="h-full w-full flex flex-col items-center justify-center text-gray-200">
           <h1 className="text-3xl font-mono">JSON Log Explorer</h1>
-          {!areLogsPresent && (
+          {!areConnectionsPresent && (
+            <p className="animate-pulse">
+              Add a connection to receive logs from...
+            </p>
+          )}
+          {areConnectionsPresent && !areLogsPresent && (
             <p className="animate-pulse">Waiting for logs...</p>
           )}
-          {areLogsPresent && !arePathsSelected && (
+          {areConnectionsPresent && areLogsPresent && !arePathsSelected && (
             <p className="animate-pulse">
               Select paths to add table columns...
             </p>

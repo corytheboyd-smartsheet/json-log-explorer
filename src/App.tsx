@@ -1,5 +1,4 @@
 import React from "react";
-import "./lib/socket";
 import { LogList } from "./component/LogList";
 import { SelectedLogView } from "./component/SelectedLogView";
 import { Sidebar } from "./component/Sidebar";
