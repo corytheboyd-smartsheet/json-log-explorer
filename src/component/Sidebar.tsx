@@ -1,6 +1,6 @@
 import { PathList } from "./PathList";
 import React from "react";
-import { useStore } from "./lib/store";
+import { useStore } from "../lib/store";
 import { ExclusionList } from "./ExclusionList";
 import { GlobalActions } from "./GlobalActions";
 import classNames from "classnames";

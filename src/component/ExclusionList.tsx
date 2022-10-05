@@ -1,5 +1,5 @@
 import React, { FormEvent } from "react";
-import { SidebarSection } from "./ui/SidebarSection";
+import { SidebarSection } from "../ui/SidebarSection";
 
 export const ExclusionList: React.FC = () => {
   const handleCreateExclusion = (event: FormEvent) => {

@@ -1,7 +1,7 @@
-import { SidebarButton } from "./ui/SidebarButton";
+import { SidebarButton } from "../ui/SidebarButton";
 import React, { useCallback } from "react";
-import { useStore } from "./lib/store";
-import { SidebarSection } from "./ui/SidebarSection";
+import { useStore } from "../lib/store";
+import { SidebarSection } from "../ui/SidebarSection";
 
 export const GlobalActions: React.FC = () => {
   const sidebarCollapsed = useStore((store) => store.sidebarCollapsed);

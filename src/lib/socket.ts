@@ -1,4 +1,4 @@
-import { useStore } from "./lib/store";
+import { useStore } from "./store";
 
 const socket = new WebSocket("ws://localhost:3010");
 socket.onopen = (event) => {

@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
-import { useStore } from "./lib/store";
-import { SidebarButton } from "./ui/SidebarButton";
-import { SidebarSection } from "./ui/SidebarSection";
+import { useStore } from "../lib/store";
+import { SidebarButton } from "../ui/SidebarButton";
+import { SidebarSection } from "../ui/SidebarSection";
 import classNames from "classnames";
 
 const Path: React.FC<{ path: string }> = ({ path }) => {

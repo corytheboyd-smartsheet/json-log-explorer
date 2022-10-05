@@ -1,6 +1,6 @@
 import React from "react";
-import { Log, useStore } from "./lib/store";
-import { getFromMapAtPath } from "./lib/getFromMapAtPath";
+import { Log, useStore } from "../lib/store";
+import { getFromMapAtPath } from "../lib/getFromMapAtPath";
 
 const Header: React.FC<{ label: string }> = ({ label }) => (
   <th className="text-sm p-2">{label}</th>
