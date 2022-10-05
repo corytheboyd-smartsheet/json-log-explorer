@@ -1,0 +1,6 @@
+.SidebarButton {
+    @apply w-full py-1 px-1;
+    @apply rounded;
+    @apply text-white text-sm;
+    @apply hover:shadow-lg transition-shadow;
+}

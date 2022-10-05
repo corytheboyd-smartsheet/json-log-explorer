@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { useStore } from "./lib/store";
+import { SidebarButton } from "./ui/SidebarButton";
 
 const Path: React.FC<{ path: string }> = ({ path }) => {
   const addSelectedPath = useStore((store) => store.addSelectedPath);
@@ -35,14 +36,25 @@ export const PathList: React.FC = () => {
   const paths = useStore((store) => store.paths);
   const pathSearchQuery = useStore((store) => store.pathSearchQuery);
   const setPathSearchQuery = useStore((store) => store.setPathSearchQuery);
+  const clearSelectedPaths = useStore((store) => store.clearSelectedPaths);
+
+  const handleClearSelectedPaths = useCallback(() => {
+    clearSelectedPaths();
+  }, [clearSelectedPaths]);
 
   const filteredPaths = Array.from(paths).filter((path) =>
     path.includes(pathSearchQuery)
   );
 
   return (
-    <div className="space-y-2 px-2">
-      <div className="font-bold text-center">Extracted Paths</div>
+    <div className="space-y-2">
+      <div className="font-bold text-center">Paths</div>
+      <SidebarButton
+        onClick={handleClearSelectedPaths}
+        buttonClassNames="bg-blue-500"
+      >
+        Unselect All Paths
+      </SidebarButton>
       <div className="flex">
         <input
           type="search"

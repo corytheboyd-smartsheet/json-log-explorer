@@ -1,16 +1,13 @@
 import { PathList } from "./PathList";
 import React, { useCallback } from "react";
 import { useStore } from "./lib/store";
+import { ExclusionList } from "./ExclusionList";
+import { SidebarButton } from "./ui/SidebarButton";
 
 export const Sidebar: React.FC = () => {
-  const clearSelectedPaths = useStore((store) => store.clearSelectedPaths);
   const clearLogs = useStore((store) => store.clearLogs);
   const sidebarCollapsed = useStore((store) => store.sidebarCollapsed);
   const setSidebarCollapsed = useStore((store) => store.setSidebarCollapsed);
-
-  const handleClearSelectedPaths = useCallback(() => {
-    clearSelectedPaths();
-  }, [clearSelectedPaths]);
 
   const handleClearLogs = useCallback(() => {
     clearLogs();
@@ -28,45 +25,41 @@ export const Sidebar: React.FC = () => {
     <div className="h-screen flex flex-col flex-shrink-0 space-y-3 bg-gray-100 overflow-scroll">
       {sidebarCollapsed && (
         <div className="bg-gray-500 h-screen p-1 flex flex-col space-y-2">
-          <button
-            className="bg-amber-500 rounded p-1 h-24"
+          <SidebarButton
+            buttonClassNames="bg-amber-500"
             onClick={handleShowSidebar}
           >
             👉
-          </button>
-          <button
-            className="bg-red-400 rounded p-1 h-24"
+          </SidebarButton>
+          <SidebarButton
+            buttonClassNames="bg-red-400"
             onClick={handleClearLogs}
           >
             🔥
-          </button>
+          </SidebarButton>
         </div>
       )}
 
       {!sidebarCollapsed && (
-        <div className="w-96">
+        <div className="w-96 px-3 my-5 space-y-3">
           <div>
-            <div className="font-bold text-center">Actions</div>
-            <div className="flex flex-col w-full px-3 space-y-1 text-sm">
-              <button
-                className="bg-red-500 rounded text-white"
+            <div className="flex flex-col w-full space-y-1 text-sm">
+              <SidebarButton
+                buttonClassNames="bg-red-500"
                 onClick={handleClearLogs}
               >
-                Delete Logs 🔥
-              </button>
-              <button
-                className="bg-blue-500 rounded text-white"
-                onClick={handleClearSelectedPaths}
-              >
-                Unselect All Paths
-              </button>
-              <button
-                className="bg-amber-500 rounded text-white"
+                Delete All Logs 🔥
+              </SidebarButton>
+              <SidebarButton
+                buttonClassNames="bg-amber-500"
                 onClick={handleCollapseSidebar}
               >
-                Collapse 🤏
-              </button>
+                Collapse Sidebar 🤏
+              </SidebarButton>
             </div>
+          </div>
+          <div>
+            <ExclusionList />
           </div>
           <div>
             <PathList />
