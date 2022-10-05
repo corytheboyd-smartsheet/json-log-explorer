@@ -34,7 +34,7 @@ const Path: React.FC<{ path: string }> = ({ path }) => {
 };
 
 export const PathList: React.FC = () => {
-  const paths = useStore((store) => store.paths);
+  const allPaths = useStore((store) => store.paths);
   const selectedPaths = useStore((store) => store.selectedPaths);
   const pathSearchQuery = useStore((store) => store.pathSearchQuery);
   const setPathSearchQuery = useStore((store) => store.setPathSearchQuery);
@@ -44,7 +44,7 @@ export const PathList: React.FC = () => {
     clearSelectedPaths();
   }, [clearSelectedPaths]);
 
-  const unselectedPaths = Array.from(paths).filter((path) =>
+  const filteredUnselectedPaths = Array.from(allPaths).filter((path) =>
     path.includes(pathSearchQuery)
   );
 
@@ -66,18 +66,30 @@ export const PathList: React.FC = () => {
             onChange={(e) => setPathSearchQuery(e.target.value)}
           />
         </div>
+
         <p className="font-bold">Selected</p>
-        <ul className="space-y-0.5 text-xs">
-          {Array.from(selectedPaths).map((path) => (
-            <Path key={path} path={path} />
-          ))}
-        </ul>
+        {selectedPaths.size === 0 && (
+          <p className="italic text-xs text-gray-400">None selected</p>
+        )}
+        {selectedPaths.size > 0 && (
+          <ul className="space-y-0.5 text-xs">
+            {Array.from(selectedPaths).map((path) => (
+              <Path key={path} path={path} />
+            ))}
+          </ul>
+        )}
+
         <p className="font-bold">All</p>
-        <ul className="space-y-0.5 text-xs">
-          {unselectedPaths.map((path) => (
-            <Path key={path} path={path} />
-          ))}
-        </ul>
+        {allPaths.size == 0 && (
+          <p className="italic text-xs text-gray-400">Nothing extracted yet</p>
+        )}
+        {allPaths.size > 0 && (
+          <ul className="space-y-0.5 text-xs">
+            {filteredUnselectedPaths.map((path) => (
+              <Path key={path} path={path} />
+            ))}
+          </ul>
+        )}
       </div>
     </SidebarSection>
   );
