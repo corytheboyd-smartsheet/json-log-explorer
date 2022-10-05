@@ -36,8 +36,9 @@ type AppStore = {
   removeConnection: (address: Socket["address"]) => void;
   updateConnection: (
     address: Socket["address"],
-    changes: Omit<Partial<Socket>, "address" | "socket">
+    changes: Omit<Partial<Connection>, "socket">
   ) => void;
+  resetConnection: (address: Socket["address"]) => void;
 };
 
 export const useStore = create<AppStore>((set, get) => ({
@@ -120,5 +121,15 @@ export const useStore = create<AppStore>((set, get) => ({
     const current = connections[address];
     connections[address] = { ...current, ...changes };
     set({ connections });
+  },
+  resetConnection: (address) => {
+    const connections = get().connections;
+    const connection = connections[address];
+    if (!connection) {
+      return;
+    }
+
+    get().updateConnection(address, { status: "initial" });
+    connection.socket.reset();
   },
 }));

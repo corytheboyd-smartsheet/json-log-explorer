@@ -41,6 +41,7 @@ const AddConnection: React.FC = () => {
 const ConnectionList: React.FC = () => {
   const connections = useStore((state) => Object.values(state.connections));
   const removeConnection = useStore((state) => state.removeConnection);
+  const resetConnection = useStore((state) => state.resetConnection);
 
   const areConnectionsPresent = connections.length > 0;
 
@@ -76,9 +77,12 @@ const ConnectionList: React.FC = () => {
                   ></div>
                   <div className="flex-grow">{connection.socket.address}</div>
                   <div className="flex space-x-1">
-                    {/*<Button buttonClassNames="bg-blue-400 hover:bg-blue-500 w-8">*/}
-                    {/*  Con*/}
-                    {/*</Button>*/}
+                    <button
+                      className="bg-blue-400 hover:bg-blue-500 w-10 rounded text-white"
+                      onClick={() => resetConnection(connection.socket.address)}
+                    >
+                      Con
+                    </button>
                     <button
                       className="bg-red-400 hover:bg-red-500 w-10 rounded text-white"
                       onClick={() =>
