@@ -25,14 +25,14 @@ const Path: React.FC<{ path: string }> = ({ path }) => {
     setPathSearchQuery,
   ]);
 
-  let selectedClasses = "";
-  if (isSelected) {
-    selectedClasses = "bg-amber-200";
-  }
-
   return (
     <li
-      className={`${selectedClasses} hover:bg-amber-500 hover:text-amber-200 transition-colors cursor-pointer`}
+      className={classNames(
+        "hover:bg-amber-500 hover:text-amber-200 transition-colors cursor-pointer rounded px-1",
+        {
+          "bg-amber-200 text-amber-800": isSelected,
+        }
+      )}
       onClick={handleClick}
     >
       <code>{path}</code>

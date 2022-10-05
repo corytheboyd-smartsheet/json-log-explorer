@@ -10,7 +10,7 @@ export const SelectedLogView: React.FC = () => {
   }
 
   return (
-    <div className="bg-gray-100 text-gray-800 p-3 flex flex-col space-y-3 max-w-xl h-screen p-3">
+    <div className="bg-gray-700 text-gray-800 p-3 flex flex-col space-y-3 max-w-xl h-screen p-3 border-l-8 border-gray-800">
       <div className="flex justify-end">
         <button
           className="bg-gray-300 rounded px-5 py-2"

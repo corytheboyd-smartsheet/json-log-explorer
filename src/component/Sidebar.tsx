@@ -11,9 +11,10 @@ export const Sidebar: React.FC = () => {
   return (
     <div
       className={classNames(
-        "h-screen flex flex-col flex-shrink-0 overflow-scroll",
-        { "bg-gray-700 py-2": sidebarCollapsed },
-        { "w-96 bg-gray-100": !sidebarCollapsed }
+        "h-screen flex flex-col flex-shrink-0 overflow-scroll text-white bg-gray-700",
+        "border-r-8 border-gray-800",
+        { "py-2": sidebarCollapsed },
+        { "w-96": !sidebarCollapsed }
       )}
     >
       <div className="space-y-5 flex-grow">
