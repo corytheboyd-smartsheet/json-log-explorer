@@ -22,6 +22,7 @@ type AppStore = {
   selectedLog: Log | null;
   sidebarCollapsed: boolean;
   pathSearchQuery: string;
+  sectionCollapsed: Record<string, boolean>;
   connections: Record<Socket["address"], Connection>;
   addLog: (raw: Object) => void;
   addSelectedPath: (path: string) => void;
@@ -39,6 +40,7 @@ type AppStore = {
     changes: Omit<Partial<Connection>, "socket">
   ) => void;
   resetConnection: (address: Socket["address"]) => void;
+  setSectionCollapsed: (name: string, value: boolean) => void;
 };
 
 export const useStore = create<AppStore>((set, get) => ({
@@ -49,6 +51,7 @@ export const useStore = create<AppStore>((set, get) => ({
   selectedLog: null,
   sidebarCollapsed: false,
   pathSearchQuery: "",
+  sectionCollapsed: {},
   connections: {
     "localhost:3010": {
       status: "initial",
@@ -131,5 +134,10 @@ export const useStore = create<AppStore>((set, get) => ({
 
     get().updateConnection(address, { status: "initial" });
     connection.socket.reset();
+  },
+  setSectionCollapsed: (name, value) => {
+    const sectionCollapsed = get().sectionCollapsed;
+    sectionCollapsed[name] = value;
+    set({ sectionCollapsed });
   },
 }));
