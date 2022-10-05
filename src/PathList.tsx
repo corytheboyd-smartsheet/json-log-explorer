@@ -5,18 +5,24 @@ import { SidebarSection } from "./ui/SidebarSection";
 
 const Path: React.FC<{ path: string }> = ({ path }) => {
   const addSelectedPath = useStore((store) => store.addSelectedPath);
+  const setPathSearchQuery = useStore((store) => store.setPathSearchQuery);
   const removeSelectedPath = useStore((store) => store.removeSelectedPath);
   const isSelected = useStore((store) => store.selectedPaths.has(path));
 
   const handleClick = useCallback(() => {
-    console.log("handleClick", isSelected);
-
     if (isSelected) {
       removeSelectedPath(path);
     } else {
       addSelectedPath(path);
     }
-  }, [addSelectedPath, removeSelectedPath, path, isSelected]);
+    setPathSearchQuery("");
+  }, [
+    addSelectedPath,
+    removeSelectedPath,
+    path,
+    isSelected,
+    setPathSearchQuery,
+  ]);
 
   let selectedClasses = "";
   if (isSelected) {
