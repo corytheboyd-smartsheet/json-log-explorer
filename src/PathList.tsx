@@ -63,15 +63,6 @@ export const PathList: React.FC = () => {
         >
           Unselect All Paths
         </SidebarButton>
-        <div>
-          <input
-            type="search"
-            placeholder="foo.bar.baz"
-            className="text-sm border-gray-500 border-2 rounded w-full"
-            value={pathSearchQuery}
-            onChange={(e) => setPathSearchQuery(e.target.value)}
-          />
-        </div>
 
         <p className="font-bold">Selected</p>
         {selectedPaths.size === 0 && (
@@ -86,6 +77,13 @@ export const PathList: React.FC = () => {
         )}
 
         <p className="font-bold">All</p>
+        <input
+          type="search"
+          placeholder="foo.bar.baz"
+          className="text-sm border-gray-500 border-2 rounded w-full"
+          value={pathSearchQuery}
+          onChange={(e) => setPathSearchQuery(e.target.value)}
+        />
         {allPaths.size == 0 && (
           <p className="italic text-xs text-gray-400">Nothing extracted yet</p>
         )}

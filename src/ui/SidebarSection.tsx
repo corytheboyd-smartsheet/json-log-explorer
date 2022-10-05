@@ -7,8 +7,12 @@ export const SidebarSection: React.FC<
 
   return (
     <div className="space-y-1">
-      {hasTitle && <div className="font-bold text-center">{title}</div>}
-      <div>{children}</div>
+      {hasTitle && (
+        <div className="mb-5 font-bold text-center bg-green-200 text-green-800">
+          {title}
+        </div>
+      )}
+      <div className="px-3">{children}</div>
     </div>
   );
 };
