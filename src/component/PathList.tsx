@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useStore } from "../lib/store";
-import { SidebarButton } from "../ui/SidebarButton";
+import { Button } from "../ui/Button";
 import { SidebarSection } from "../ui/SidebarSection";
 import classNames from "classnames";
 
@@ -58,12 +58,12 @@ export const PathList: React.FC = () => {
   return (
     <SidebarSection title="Paths">
       <div className="space-y-2">
-        <SidebarButton
+        <Button
           onClick={handleClearSelectedPaths}
           buttonClassNames="bg-blue-500"
         >
           Unselect All Paths
-        </SidebarButton>
+        </Button>
 
         <p className="font-bold">Selected</p>
         {selectedPaths.size === 0 && (

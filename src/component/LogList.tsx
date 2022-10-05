@@ -40,7 +40,7 @@ const render = (log: Log, path: string) => {
   }
 };
 
-export const LogList: React.FC = () => {
+const LogTable: React.FC = () => {
   const logs = useStore((store) => store.logs);
   const selectedPaths = useStore((store) => Array.from(store.selectedPaths));
   const setSelectedLog = useStore((store) => store.setSelectedLog);
@@ -54,36 +54,60 @@ export const LogList: React.FC = () => {
   };
 
   return (
-    <div className="w-full overflow-scroll">
-      <table className="table-auto w-full text-left whitespace-nowrap text-gray-200">
-        <thead>
-          <tr>
-            {selectedPaths.map((path) => (
-              <Header key={`${path}-header`} label={path} />
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {logs.map((log, index) => {
-            let selectedClasses = "";
-            if (isSelected(log)) {
-              selectedClasses = "bg-blue-600 even:bg-blue-600";
-            }
+    <table className="table-auto w-full text-left whitespace-nowrap text-gray-200">
+      <thead>
+        <tr>
+          {selectedPaths.map((path) => (
+            <Header key={`${path}-header`} label={path} />
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {logs.map((log, index) => {
+          let selectedClasses = "";
+          if (isSelected(log)) {
+            selectedClasses = "bg-blue-600 even:bg-blue-600";
+          }
 
-            return (
-              <tr
-                key={index}
-                className={`even:bg-gray-600 bg-gray-700 hover:bg-amber-600 cursor-pointer ${selectedClasses}`}
-                onClick={() => setSelectedLog(log)}
-              >
-                {selectedPaths.map((path) => (
-                  <DataCell key={`${path}-data`} value={render(log, path)} />
-                ))}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+          return (
+            <tr
+              key={index}
+              className={`even:bg-gray-600 bg-gray-700 hover:bg-amber-600 cursor-pointer ${selectedClasses}`}
+              onClick={() => setSelectedLog(log)}
+            >
+              {selectedPaths.map((path) => (
+                <DataCell key={`${path}-data`} value={render(log, path)} />
+              ))}
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+};
+
+export const LogList: React.FC = () => {
+  const arePathsSelected = useStore((state) => state.selectedPaths.size > 0);
+  const areLogsPresent = useStore((state) => state.logs.length > 0);
+
+  const showLogsTable = areLogsPresent && arePathsSelected;
+
+  return (
+    <div className="w-full overflow-scroll">
+      {!showLogsTable && (
+        <div className="h-full w-full flex flex-col items-center justify-center text-gray-200">
+          <h1 className="text-3xl font-mono">JSON Log Explorer</h1>
+          {!areLogsPresent && (
+            <p className="animate-pulse">Waiting for logs...</p>
+          )}
+          {areLogsPresent && !arePathsSelected && (
+            <p className="animate-pulse">
+              Select paths to add table columns...
+            </p>
+          )}
+        </div>
+      )}
+      {showLogsTable && <LogTable />}
     </div>
   );
 };

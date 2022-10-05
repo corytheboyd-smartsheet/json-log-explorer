@@ -1,4 +1,4 @@
-import { SidebarButton } from "../ui/SidebarButton";
+import { Button } from "../ui/Button";
 import React, { useCallback } from "react";
 import { useStore } from "../lib/store";
 import { SidebarSection } from "../ui/SidebarSection";
@@ -25,35 +25,35 @@ export const GlobalActions: React.FC = () => {
       <div className="space-y-2">
         {sidebarCollapsed && (
           <>
-            <SidebarButton
+            <Button
               buttonClassNames="bg-amber-500"
               onClick={handleShowSidebar}
             >
               👉
-            </SidebarButton>
-            <SidebarButton
+            </Button>
+            <Button
               buttonClassNames="bg-red-400"
               onClick={handleClearLogs}
             >
               🔥
-            </SidebarButton>
+            </Button>
           </>
         )}
 
         {!sidebarCollapsed && (
           <>
-            <SidebarButton
+            <Button
               buttonClassNames="bg-red-500"
               onClick={handleClearLogs}
             >
               Delete All Logs 🔥
-            </SidebarButton>
-            <SidebarButton
+            </Button>
+            <Button
               buttonClassNames="bg-amber-500"
               onClick={handleCollapseSidebar}
             >
               Collapse Sidebar 🤏
-            </SidebarButton>
+            </Button>
           </>
         )}
       </div>

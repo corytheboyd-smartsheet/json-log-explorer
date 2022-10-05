@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes } from "react";
 import "./SidebarButton.css";
 import classNames from "classnames";
 
-export const SidebarButton: React.FC<
+export const Button: React.FC<
   ButtonHTMLAttributes<any> & { buttonClassNames?: string }
 > = ({ buttonClassNames, ...rest }) => {
   return (
