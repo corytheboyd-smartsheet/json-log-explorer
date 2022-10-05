@@ -6,10 +6,13 @@ import { useStore } from "../lib/store";
 import classNames from "classnames";
 
 const AddConnection: React.FC = () => {
+  const addConnection = useStore((state) => state.addConnection);
+
   const handleCreateConnection: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log("CREATE CONNECTION", event, data);
+    const address = data.get("address") as string;
+    addConnection(address);
   };
 
   return (
@@ -22,7 +25,12 @@ const AddConnection: React.FC = () => {
       </div>
       <form onSubmit={handleCreateConnection}>
         <div className="flex flex-col space-y-2">
-          <Input id="address" type="text" placeholder="localhost:3100" />
+          <Input
+            id="address"
+            name="address"
+            type="text"
+            placeholder="localhost:3100"
+          />
           <Button buttonClassNames="bg-green-600">Add Connection</Button>
         </div>
       </form>
@@ -32,6 +40,7 @@ const AddConnection: React.FC = () => {
 
 const ConnectionList: React.FC = () => {
   const connections = useStore((state) => Object.values(state.connections));
+  const removeConnection = useStore((state) => state.removeConnection);
 
   const areConnectionsPresent = connections.length > 0;
 
@@ -50,11 +59,11 @@ const ConnectionList: React.FC = () => {
       </div>
       {areConnectionsPresent && (
         <div>
-          <ul>
+          <ul className="space-y-1">
             {connections.map((connection) => (
               <li
-                key={connection.address}
-                className="font-mono text-sm bg-gray-100 text-gray-800 rounded px-2 py-1"
+                key={connection.socket.address}
+                className="font-mono text-xs bg-gray-100 text-gray-800 p-1 rounded"
               >
                 <div className="flex items-center space-x-2">
                   <div
@@ -65,7 +74,20 @@ const ConnectionList: React.FC = () => {
                       "bg-red-500": connection.status === "closed",
                     })}
                   ></div>
-                  <div>{connection.address}</div>
+                  <div className="flex-grow">{connection.socket.address}</div>
+                  <div className="flex space-x-1">
+                    {/*<Button buttonClassNames="bg-blue-400 hover:bg-blue-500 w-8">*/}
+                    {/*  Con*/}
+                    {/*</Button>*/}
+                    <button
+                      className="bg-red-400 hover:bg-red-500 w-10 rounded text-white"
+                      onClick={() =>
+                        removeConnection(connection.socket.address)
+                      }
+                    >
+                      Del
+                    </button>
+                  </div>
                 </div>
               </li>
             ))}

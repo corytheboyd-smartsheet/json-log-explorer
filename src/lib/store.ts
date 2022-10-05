@@ -2,6 +2,7 @@ import { JsonObject } from "./jsonTypes";
 import create from "zustand";
 import { getPaths } from "./getPaths";
 import { createMapFromObject } from "./createMapFromObject";
+import { Socket } from "./Socket";
 
 export type Log = {
   raw: Object;
@@ -9,8 +10,8 @@ export type Log = {
 };
 
 export type Connection = {
-  address: string;
   status: "initial" | "open" | "closed";
+  socket: Socket;
 };
 
 type AppStore = {
@@ -21,7 +22,7 @@ type AppStore = {
   selectedLog: Log | null;
   sidebarCollapsed: boolean;
   pathSearchQuery: string;
-  connections: Record<Connection["address"], Connection>;
+  connections: Record<Socket["address"], Connection>;
   addLog: (raw: Object) => void;
   addSelectedPath: (path: string) => void;
   removeSelectedPath: (path: string) => void;
@@ -31,11 +32,11 @@ type AppStore = {
   clearSelectedLog: () => void;
   setSidebarCollapsed: (value: boolean) => void;
   setPathSearchQuery: (query: string) => void;
-  addConnection: (connection: Connection) => void;
-  removeConnection: (address: Connection["address"]) => void;
+  addConnection: (address: Socket["address"]) => void;
+  removeConnection: (address: Socket["address"]) => void;
   updateConnection: (
-    address: Connection["address"],
-    changes: Omit<Partial<Connection>, "address">
+    address: Socket["address"],
+    changes: Omit<Partial<Socket>, "address" | "socket">
   ) => void;
 };
 
@@ -48,9 +49,9 @@ export const useStore = create<AppStore>((set, get) => ({
   sidebarCollapsed: false,
   pathSearchQuery: "",
   connections: {
-    "localhost:3100": {
-      address: "localhost:3100",
-      status: "closed",
+    "localhost:3010": {
+      status: "initial",
+      socket: new Socket("localhost:3010"),
     },
   },
   addLog: (raw) => {
@@ -97,9 +98,16 @@ export const useStore = create<AppStore>((set, get) => ({
   clearSelectedLog: () => set({ selectedLog: null }),
   setSidebarCollapsed: (value) => set({ sidebarCollapsed: value }),
   setPathSearchQuery: (query) => set({ pathSearchQuery: query }),
-  addConnection: (connection) => {
+  addConnection: (address) => {
     const connections = get().connections;
-    connections[connection.address] = connection;
+    if (connections[address]) {
+      return;
+    }
+
+    connections[address] = {
+      status: "initial",
+      socket: new Socket(address),
+    };
     set({ connections });
   },
   removeConnection: (address) => {

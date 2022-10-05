@@ -1,11 +1,15 @@
 import { useStore } from "./store";
 
-export class Connection {
+export class Socket {
   public address: string;
+  public status: "initial" | "open" | "closed";
+  public messageCount: number;
   private socket: WebSocket;
 
   constructor(address: string) {
     this.address = address;
+    this.status = "initial";
+    this.messageCount = 0;
     this.socket = this.createSocket();
   }
 
@@ -19,6 +23,9 @@ export class Connection {
       useStore.getState().updateConnection(this.address, { status: "open" });
     };
     socket.onmessage = (event) => {
+      this.messageCount += 1;
+
+      // TODO: decouple parsing from socket wrapper class
       try {
         const raw = JSON.parse(event.data);
         if (Object.keys(raw).length > 0) {
