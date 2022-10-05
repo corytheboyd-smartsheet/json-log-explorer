@@ -35,6 +35,7 @@ const Path: React.FC<{ path: string }> = ({ path }) => {
 
 export const PathList: React.FC = () => {
   const paths = useStore((store) => store.paths);
+  const selectedPaths = useStore((store) => store.selectedPaths);
   const pathSearchQuery = useStore((store) => store.pathSearchQuery);
   const setPathSearchQuery = useStore((store) => store.setPathSearchQuery);
   const clearSelectedPaths = useStore((store) => store.clearSelectedPaths);
@@ -43,7 +44,7 @@ export const PathList: React.FC = () => {
     clearSelectedPaths();
   }, [clearSelectedPaths]);
 
-  const filteredPaths = Array.from(paths).filter((path) =>
+  const unselectedPaths = Array.from(paths).filter((path) =>
     path.includes(pathSearchQuery)
   );
 
@@ -65,8 +66,15 @@ export const PathList: React.FC = () => {
             onChange={(e) => setPathSearchQuery(e.target.value)}
           />
         </div>
-        <ul className="space-y-0.5 text-xs pb-10">
-          {filteredPaths.map((path) => (
+        <p className="font-bold">Selected</p>
+        <ul className="space-y-0.5 text-xs">
+          {Array.from(selectedPaths).map((path) => (
+            <Path key={path} path={path} />
+          ))}
+        </ul>
+        <p className="font-bold">All</p>
+        <ul className="space-y-0.5 text-xs">
+          {unselectedPaths.map((path) => (
             <Path key={path} path={path} />
           ))}
         </ul>
