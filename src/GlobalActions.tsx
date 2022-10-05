@@ -21,7 +21,7 @@ export const GlobalActions: React.FC = () => {
   }, [setSidebarCollapsed]);
 
   return (
-    <SidebarSection title="JSON Log Explorer">
+    <SidebarSection title={sidebarCollapsed ? "" : "JSON Log Explorer"}>
       <div className="space-y-2">
         {sidebarCollapsed && (
           <>

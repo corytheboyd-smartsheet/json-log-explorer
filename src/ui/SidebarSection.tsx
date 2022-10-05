@@ -12,7 +12,7 @@ export const SidebarSection: React.FC<
           {title}
         </div>
       )}
-      <div className="px-3">{children}</div>
+      <div className="px-2">{children}</div>
     </div>
   );
 };

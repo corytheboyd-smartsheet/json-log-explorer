@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import { useStore } from "./lib/store";
 import { SidebarButton } from "./ui/SidebarButton";
 import { SidebarSection } from "./ui/SidebarSection";
+import classNames from "classnames";
 
 const Path: React.FC<{ path: string }> = ({ path }) => {
   const addSelectedPath = useStore((store) => store.addSelectedPath);
@@ -80,11 +81,15 @@ export const PathList: React.FC = () => {
         <input
           type="search"
           placeholder="foo.bar.baz"
-          className="text-sm border-gray-500 border-2 rounded w-full"
+          className={classNames(
+            "text-sm border-gray-500 border-2 rounded w-full",
+            { "cursor-not-allowed": allPaths.size === 0 }
+          )}
+          disabled={allPaths.size === 0}
           value={pathSearchQuery}
           onChange={(e) => setPathSearchQuery(e.target.value)}
         />
-        {allPaths.size == 0 && (
+        {allPaths.size === 0 && (
           <p className="italic text-xs text-gray-400">Nothing extracted yet</p>
         )}
         {allPaths.size > 0 && (
