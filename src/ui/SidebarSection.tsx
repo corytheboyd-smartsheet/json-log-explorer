@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 
 export const SidebarSection: React.FC<
-  React.PropsWithChildren & { title?: string }
+  React.PropsWithChildren & { title: string }
 > = ({ title, children }) => {
-  const hasTitle = Boolean(title);
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <div className="space-y-1">
-      {hasTitle && (
-        <div className="mb-5 font-bold text-center bg-gray-500 text-gray-100">
-          {title}
+      <div className="mb-5 font-bold items-center bg-gray-500 text-gray-100 flex w-full px-2">
+        <div className="flex-grow">{title}</div>
+        <div>
+          <button onClick={() => setCollapsed(!collapsed)}>
+            {collapsed ? "➕" : "➖"}
+          </button>
         </div>
-      )}
-      <div className="px-2">{children}</div>
+      </div>
+      {!collapsed && <div className="px-2">{children}</div>}
     </div>
   );
 };
