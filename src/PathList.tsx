@@ -31,7 +31,7 @@ const Path: React.FC<{ path: string }> = ({ path }) => {
 
   return (
     <li
-      className={`${selectedClasses} hover:bg-amber-50 transition-colors cursor-pointer`}
+      className={`${selectedClasses} hover:bg-amber-500 hover:text-amber-200 transition-colors cursor-pointer`}
       onClick={handleClick}
     >
       <code>{path}</code>
