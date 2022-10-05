@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, SyntheticEvent, useState } from "react";
 import { SidebarSection } from "../ui/SidebarSection";
 import { useStore } from "../lib/store";
 import classNames from "classnames";
@@ -76,11 +76,25 @@ const InclusionForm: React.FC = () => {
     event.preventDefault();
   };
 
-  const handleFormChange = (event: ChangeEvent) => {
-    console.log(event);
+  const handlePathChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const path = event.target.value;
+    setState({ ...state, path });
+  };
+
+  const handleValueChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value;
+    setState({ ...state, value });
+  };
+
+  const handleStrategyChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const strategy = event.target.value;
+    setState({ ...state, value: strategy });
   };
 
   const values: string[] = [];
+  if (state.path) {
+    console.log("PATH SELECTED");
+  }
 
   return (
     <div className="flex flex-col space-y-2">
@@ -92,7 +106,7 @@ const InclusionForm: React.FC = () => {
       </div>
       <form
         onSubmit={handleCreateExclusion}
-        className="text-xs text-black flex flex-col space-y-1"
+        className="text-xs text-black flex flex-col space-y-2"
       >
         <div className="flex items-center space-x-1">
           <select
@@ -100,7 +114,7 @@ const InclusionForm: React.FC = () => {
             id="path"
             className="rounded w-full"
             disabled={isDisabled}
-            onChange={handleFormChange}
+            onChange={handlePathChange}
             value={state.path}
           >
             <option value={""} className="italic" disabled={true}>
@@ -118,7 +132,7 @@ const InclusionForm: React.FC = () => {
             id="value"
             className="rounded w-full"
             disabled={isDisabled}
-            onChange={handleFormChange}
+            onChange={handleValueChange}
             value={state.value}
           >
             <option value={undefined} className="italic" disabled={true}>
@@ -136,14 +150,17 @@ const InclusionForm: React.FC = () => {
             id="strategy"
             className="rounded w-full"
             disabled={isDisabled}
-            onChange={handleFormChange}
+            onChange={handleStrategyChange}
             value={state.strategy}
           >
             <option value="include">include</option>
             <option value="exclude">exclude</option>
           </select>
         </div>
-        <Button buttonClassNames="bg-green-600">Add Filter</Button>
+
+        <Button type="submit" buttonClassNames="bg-green-600">
+          Add Filter
+        </Button>
       </form>
     </div>
   );

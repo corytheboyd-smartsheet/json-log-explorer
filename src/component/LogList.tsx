@@ -1,6 +1,7 @@
 import React from "react";
 import { Log, useStore } from "../lib/store";
 import { getFromMapAtPath } from "../lib/getFromMapAtPath";
+import classNames from "classnames";
 
 const Header: React.FC<{ label: string }> = ({ label }) => (
   <th className="text-sm p-2">{label}</th>
@@ -63,24 +64,20 @@ const LogTable: React.FC = () => {
         </tr>
       </thead>
       <tbody>
-        {logs.map((log, index) => {
-          let selectedClasses = "";
-          if (isSelected(log)) {
-            selectedClasses = "bg-blue-600 even:bg-blue-600";
-          }
-
-          return (
-            <tr
-              key={index}
-              className={`even:bg-gray-600 bg-gray-700 hover:bg-amber-600 cursor-pointer ${selectedClasses}`}
-              onClick={() => setSelectedLog(log)}
-            >
-              {selectedPaths.map((path) => (
-                <DataCell key={`${path}-data`} value={render(log, path)} />
-              ))}
-            </tr>
-          );
-        })}
+        {logs.map((log, index) => (
+          <tr
+            key={index}
+            className={classNames(
+              "even:bg-gray-600 bg-gray-700 hover:bg-amber-600 cursor-pointer",
+              { "bg-amber-600 even:bg-amber-600": isSelected(log) }
+            )}
+            onClick={() => setSelectedLog(log)}
+          >
+            {selectedPaths.map((path) => (
+              <DataCell key={`${path}-data`} value={render(log, path)} />
+            ))}
+          </tr>
+        ))}
       </tbody>
     </table>
   );
