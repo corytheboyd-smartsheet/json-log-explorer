@@ -4,6 +4,7 @@ import { getPaths } from "./getPaths";
 import { createMapFromObject } from "./createMapFromObject";
 import { Socket } from "./Socket";
 import { v4 } from "uuid";
+import { getFromMapAtPath } from "./getFromMapAtPath";
 
 export type Log = {
   raw: Object;
@@ -67,13 +68,24 @@ export const useStore = create<AppStore>((set, get) => ({
   logs: [],
   rawLogs: [],
   paths: new Set(),
-  selectedPaths: new Set(),
+  selectedPaths: new Set([
+    "ts",
+    "custom_event.identifier",
+    "custom_event.message",
+  ]),
   selectedLog: null,
   sidebarCollapsed: false,
   pathSearchQuery: "",
   sectionCollapsed: {},
   connections: {},
-  filters: {},
+  filters: {
+    abc123: {
+      id: "abc123",
+      path: "custom_event.identifier",
+      strategy: "neq",
+      value: "ControllerActionLogger",
+    },
+  },
   addLog: (raw) => {
     const { logs, paths } = get();
 
@@ -160,7 +172,46 @@ export const useStore = create<AppStore>((set, get) => ({
     const { logs, ...state } = get();
     const filters = Object.values(state.filters);
 
-    return logs;
+    return logs.filter((log) => {
+      console.log("filters", filters);
+
+      const filtersPassed = filters.every((filter) => {
+        const valueAtPath = getFromMapAtPath(log.data, filter.path);
+
+        console.log("FILTER", log.raw, filter.id, valueAtPath, filter.value);
+
+        switch (filter.strategy) {
+          case "contains": {
+            return valueAtPath.includes(filter.value);
+          }
+          case "excludes": {
+            return !valueAtPath.includes(filter.value);
+          }
+          case "eq": {
+            return valueAtPath === filter.value;
+          }
+          case "neq": {
+            return valueAtPath !== filter.value;
+          }
+          case "gt": {
+            return valueAtPath > filter.value;
+          }
+          case "gte": {
+            return valueAtPath >= filter.value;
+          }
+          case "lt": {
+            return valueAtPath < filter.value;
+          }
+          case "lte": {
+            return valueAtPath <= filter.value;
+          }
+        }
+      });
+
+      console.log("filtersPassed", filtersPassed);
+
+      return filtersPassed;
+    });
   },
   addFilter: (filter) => {
     const filters = get().filters;
