@@ -19,7 +19,15 @@ export type Filter = {
   id: string;
   path: string;
   value: string;
-  strategy: "include" | "exclude" | "equal" | "gt" | "gte" | "lt" | "lte";
+  strategy:
+    | "contains"
+    | "excludes"
+    | "eq"
+    | "neq"
+    | "gt"
+    | "gte"
+    | "lt"
+    | "lte";
 };
 
 type AppStore = {

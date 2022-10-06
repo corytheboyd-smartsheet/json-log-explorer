@@ -1,15 +1,26 @@
-import React, { FormEvent } from "react";
+import React, { FormEvent, FormEventHandler } from "react";
 import { SidebarSection } from "../ui/SidebarSection";
-import { useStore } from "../lib/store";
+import { Filter, useStore } from "../lib/store";
 import { Input } from "../ui/Input";
 import classNames from "classnames";
 
 const ValueMatchForm: React.FC = () => {
   const selectedPaths = useStore((state) => state.selectedPaths);
+  const addFilter = useStore((state) => state.addFilter);
   const isDisabled = selectedPaths.size === 0;
 
-  const handleCreateExclusion = (event: FormEvent) => {
+  const handleCreateExclusion: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const path = data.get("path") as string;
+    const strategy = data.get("strategy") as Filter["strategy"];
+    const value = data.get("value") as string;
+    console.log(path, strategy, value);
+    addFilter({
+      path,
+      strategy,
+      value,
+    });
   };
 
   return (
@@ -44,12 +55,19 @@ const ValueMatchForm: React.FC = () => {
             >
               <option value="contains">{"contains"}</option>
               <option value="excludes">{"excludes"}</option>
-              <option value="equals">{"equals"}</option>
+              <option value="eq">{"=="}</option>
+              <option value="neq">{"!="}</option>
+              <option value="gt">{">"}</option>
+              <option value="gte">{">="}</option>
+              <option value="lt">{"<"}</option>
+              <option value="lte">{"<="}</option>
             </select>
           </div>
 
           <Input
             type="text"
+            id="value"
+            name="value"
             placeholder="Filter match value..."
             disabled={isDisabled}
           />
@@ -59,9 +77,58 @@ const ValueMatchForm: React.FC = () => {
   );
 };
 
+const FilterListItem: React.FC<{ filter: Filter }> = ({ filter }) => {
+  const removeFilter = useStore((state) => state.removeFilter);
+
+  return (
+    <li
+      key={filter.id}
+      className="bg-gray-100 rounded text-gray-800 text-xs font-mono p-1"
+    >
+      <div className="flex items-center">
+        <div className="flex-grow">
+          <span className="text-gray-600">
+            <span className="bg-gray-300 px-1 rounded">{filter.path}</span>{" "}
+            <span
+              className={classNames("px-1 rounded", {
+                "bg-green-200":
+                  filter.strategy === "contains" || filter.strategy === "eq",
+                "bg-red-200":
+                  filter.strategy === "excludes" || filter.strategy === "neq",
+                "bg-gray-200":
+                  filter.strategy === "gt" ||
+                  filter.strategy === "gte" ||
+                  filter.strategy === "lt" ||
+                  filter.strategy === "lte",
+              })}
+            >
+              {filter.strategy === "contains" && "contains"}
+              {filter.strategy === "excludes" && "excludes"}
+              {filter.strategy === "eq" && "=="}
+              {filter.strategy === "neq" && "!="}
+              {filter.strategy === "gt" && ">"}
+              {filter.strategy === "gte" && ">="}
+              {filter.strategy === "lt" && "<"}
+              {filter.strategy === "lte" && "<="}
+            </span>{" "}
+            <span className="bg-gray-300 px-1 rounded">{filter.value}</span>
+          </span>
+        </div>
+        <div>
+          <button
+            className="bg-red-400 hover:bg-red-500 w-10 rounded text-white"
+            onClick={() => removeFilter(filter.id)}
+          >
+            Del
+          </button>
+        </div>
+      </div>
+    </li>
+  );
+};
+
 export const FilterList: React.FC = () => {
   const filters = useStore((state) => Object.values(state.filters));
-  const removeFilter = useStore((state) => state.removeFilter);
   const areFiltersPresent = filters.length > 0;
 
   return (
@@ -79,41 +146,9 @@ export const FilterList: React.FC = () => {
               <p className="italic text-xs text-gray-400">
                 Conditions to filter logs with
               </p>
-              <ul>
+              <ul className="space-y-1">
                 {filters.map((filter) => (
-                  <li
-                    key={filter.id}
-                    className="bg-gray-100 rounded text-gray-800 text-xs font-mono p-1"
-                  >
-                    <div className="flex items-center">
-                      <div className="flex-grow">
-                        <span className="text-gray-600">
-                          <span className="bg-gray-300 px-1 rounded">
-                            {filter.path}
-                          </span>{" "}
-                          <span
-                            className={classNames("px-1 rounded", {
-                              "bg-green-200": filter.strategy === "include",
-                              "bg-red-200": filter.strategy === "exclude",
-                            })}
-                          >
-                            {filter.strategy === "include" ? "==" : "!="}
-                          </span>{" "}
-                          <span className="bg-gray-300 px-1 rounded">
-                            {filter.value}
-                          </span>
-                        </span>
-                      </div>
-                      <div>
-                        <button
-                          className="bg-red-400 hover:bg-red-500 w-10 rounded text-white"
-                          onClick={() => removeFilter(filter.id)}
-                        >
-                          Del
-                        </button>
-                      </div>
-                    </div>
-                  </li>
+                  <FilterListItem key={filter.id} filter={filter} />
                 ))}
               </ul>
             </div>
