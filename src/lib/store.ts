@@ -3,6 +3,7 @@ import create from "zustand";
 import { getPaths } from "./getPaths";
 import { createMapFromObject } from "./createMapFromObject";
 import { Socket } from "./Socket";
+import { v4 } from "uuid";
 
 export type Log = {
   raw: Object;
@@ -12,6 +13,13 @@ export type Log = {
 export type Connection = {
   status: "initial" | "open" | "closed";
   socket: Socket;
+};
+
+export type Filter = {
+  id: string;
+  path: string;
+  value: string;
+  strategy: "include" | "exclude" | "equal" | "gt" | "gte" | "lt" | "lte";
 };
 
 type AppStore = {
@@ -24,6 +32,7 @@ type AppStore = {
   pathSearchQuery: string;
   sectionCollapsed: Record<string, boolean>;
   connections: Record<Socket["address"], Connection>;
+  filters: Record<Filter["id"], Filter>;
   addLog: (raw: Object) => void;
   addSelectedPath: (path: string) => void;
   removeSelectedPath: (path: string) => void;
@@ -41,6 +50,9 @@ type AppStore = {
   ) => void;
   resetConnection: (address: Socket["address"]) => void;
   setSectionCollapsed: (name: string, value: boolean) => void;
+  getFilteredLogs: () => Log[];
+  addFilter: (filter: Omit<Filter, "id">) => void;
+  removeFilter: (id: Filter["id"]) => void;
 };
 
 export const useStore = create<AppStore>((set, get) => ({
@@ -58,6 +70,7 @@ export const useStore = create<AppStore>((set, get) => ({
       socket: new Socket("localhost:3010"),
     },
   },
+  filters: {},
   addLog: (raw) => {
     const { logs, paths } = get();
 
@@ -139,5 +152,22 @@ export const useStore = create<AppStore>((set, get) => ({
     const sectionCollapsed = get().sectionCollapsed;
     sectionCollapsed[name] = value;
     set({ sectionCollapsed });
+  },
+  getFilteredLogs: () => {
+    const { logs, ...state } = get();
+    const filters = Object.values(state.filters);
+
+    return logs;
+  },
+  addFilter: (filter) => {
+    const filters = get().filters;
+    const newFilter = { id: v4(), ...filter };
+    filters[newFilter.id] = newFilter;
+    set({ filters });
+  },
+  removeFilter: (id) => {
+    const filters = get().filters;
+    delete filters[id];
+    set({ filters });
   },
 }));

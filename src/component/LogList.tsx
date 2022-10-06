@@ -42,7 +42,7 @@ const render = (log: Log, path: string) => {
 };
 
 const LogTable: React.FC = () => {
-  const logs = useStore((store) => store.logs);
+  const logs = useStore((store) => store.getFilteredLogs());
   const selectedPaths = useStore((store) => Array.from(store.selectedPaths));
   const setSelectedLog = useStore((store) => store.setSelectedLog);
   const selectedLog = useStore((store) => store.selectedLog);
