@@ -64,12 +64,7 @@ export const useStore = create<AppStore>((set, get) => ({
   sidebarCollapsed: false,
   pathSearchQuery: "",
   sectionCollapsed: {},
-  connections: {
-    "localhost:3010": {
-      status: "initial",
-      socket: new Socket("localhost:3010"),
-    },
-  },
+  connections: {},
   filters: {},
   addLog: (raw) => {
     const { logs, paths } = get();
