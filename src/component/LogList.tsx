@@ -108,7 +108,7 @@ export const LogList: React.FC = () => {
           )}
           {areConnectionsPresent && areLogsPresent && !arePathsSelected && (
             <p className="animate-pulse">
-              Select paths to add table columns...
+              Select paths to view table columns...
             </p>
           )}
         </div>
