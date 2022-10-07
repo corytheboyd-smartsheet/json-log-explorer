@@ -171,10 +171,14 @@ export const useStore = create<AppStore>()(
               storageValue.state.selectedPaths
             );
           }
+
+          if (key === "filters") {
+            normalizedState.filters = storageValue.state.filters;
+          }
         });
 
         const serialized = JSON.stringify({ state: normalizedState });
-        console.log("serialized", serialized);
+        console.debug("SERIALIZED", serialized);
         return serialized;
       },
       deserialize: (storageValueString) => {
@@ -185,14 +189,15 @@ export const useStore = create<AppStore>()(
 
         const hydratedState: Pick<
           AppStoreData,
-          "logs" | "connections" | "selectedPaths"
+          "logs" | "connections" | "selectedPaths" | "filters"
         > = {
           logs: [],
           connections: {},
           selectedPaths: new Set(),
+          filters: {},
         };
 
-        console.log("RAW DESERIALIZED", storageValue);
+        console.debug("RAW DESERIALIZED", storageValue);
 
         Object.keys(storageValue.state).forEach((key) => {
           if (key === "connections") {
@@ -215,12 +220,16 @@ export const useStore = create<AppStore>()(
               hydratedState.selectedPaths.add(path)
             );
           }
+
+          if (key === "filters") {
+            hydratedState.filters = storageValue.state.filters;
+          }
         });
 
         const deserialized = {
           state: hydratedState,
         };
-        console.log("DESERIALIZED", deserialized);
+        console.debug("DESERIALIZED", deserialized);
         return deserialized as any;
       },
     }
