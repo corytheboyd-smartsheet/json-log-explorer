@@ -111,10 +111,14 @@ export const useStore = create<AppStore>()(
 
             switch (filter.strategy) {
               case "contains": {
-                return valueAtPath.includes(filter.value);
+                return valueAtPath
+                  .toLowerCase()
+                  .includes(filter.value.toLowerCase());
               }
               case "excludes": {
-                return !valueAtPath.includes(filter.value);
+                return !valueAtPath
+                  .toLowerCase()
+                  .includes(filter.value.toLowerCase());
               }
               case "eq": {
                 return valueAtPath === filter.value;

@@ -58,10 +58,10 @@ const ValueMatchForm: React.FC = () => {
               <option value="excludes">{"excludes"}</option>
               <option value="eq">{"=="}</option>
               <option value="neq">{"!="}</option>
-              <option value="gt">{">"}</option>
-              <option value="gte">{">="}</option>
-              <option value="lt">{"<"}</option>
-              <option value="lte">{"<="}</option>
+              {/*<option value="gt">{">"}</option>*/}
+              {/*<option value="gte">{">="}</option>*/}
+              {/*<option value="lt">{"<"}</option>*/}
+              {/*<option value="lte">{"<="}</option>*/}
             </select>
           </div>
 
