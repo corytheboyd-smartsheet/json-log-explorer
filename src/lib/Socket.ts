@@ -36,7 +36,6 @@ export class Socket {
       try {
         const raw = JSON.parse(event.data);
         if (Object.keys(raw).length > 0) {
-          console.log("raw", raw);
           useStore.getState().addLog(raw);
         }
       } catch (e) {

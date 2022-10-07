@@ -8,7 +8,7 @@ import { v4 } from "uuid";
 import { AppStore, AppStoreData } from "./types";
 
 export const useStore = create<AppStore>()(
-  persist(
+  persist<AppStore>(
     (set, get) => ({
       logs: [],
       paths: new Set<string>(),
@@ -157,22 +157,18 @@ export const useStore = create<AppStore>()(
     {
       name: "json-log-explorer",
       serialize: (storageValue) => {
-        const normalizedState: Partial<Record<keyof AppStoreData, any>> = {
-          connections: [],
-        };
+        const normalizedState: Partial<Record<keyof AppStoreData, any>> = {};
 
         Object.keys(storageValue.state).forEach((key) => {
-          // if (key === "logs") {
-          //   normalizedState[key] = storageValue.state.logs.map(
-          //     (log) => log.raw
-          //   );
-          // }
-
           if (key === "connections") {
-            Object.values(storageValue.state.connections).forEach(
-              (connection) => {
-                normalizedState.connections.push(connection.socket.address);
-              }
+            normalizedState.connections = Object.values(
+              storageValue.state.connections
+            ).map((connection) => connection.socket.address);
+          }
+
+          if (key === "selectedPaths") {
+            normalizedState.selectedPaths = Array.from(
+              storageValue.state.selectedPaths
             );
           }
         });
@@ -187,38 +183,37 @@ export const useStore = create<AppStore>()(
           version?: number;
         } = JSON.parse(storageValueString);
 
-        const hydratedState: Pick<AppStoreData, "logs" | "connections"> = {
+        const hydratedState: Pick<
+          AppStoreData,
+          "logs" | "connections" | "selectedPaths"
+        > = {
           logs: [],
           connections: {},
+          selectedPaths: new Set(),
         };
 
         console.log("RAW DESERIALIZED", storageValue);
 
         Object.keys(storageValue.state).forEach((key) => {
-          // if (key === "logs") {
-          //   const logsData = normalizedState.logs as Log["raw"][];
-          //   logsData.forEach((logData) => {
-          //     hydratedState.logs.push({
-          //       data: createMapFromObject(logData),
-          //       raw: logData,
-          //     });
-          //   });
-          // }
-
           if (key === "connections") {
             if (!(storageValue.state.connections instanceof Array)) {
-              console.log("CONNECTIONS EMPTY OR MISSING");
               return;
             }
-            console.log("HAVE CONNECTIONS", storageValue.state.connections);
             storageValue.state.connections.forEach((address) => {
-              console.log("HYDRATE CONNECTION", address);
-
               hydratedState.connections[address] = {
                 status: "initial",
                 socket: new Socket(address),
               };
             });
+          }
+
+          if (key === "selectedPaths") {
+            if (!(storageValue.state.selectedPaths instanceof Array)) {
+              return;
+            }
+            storageValue.state.selectedPaths.forEach((path) =>
+              hydratedState.selectedPaths.add(path)
+            );
           }
         });
 
@@ -226,7 +221,7 @@ export const useStore = create<AppStore>()(
           state: hydratedState,
         };
         console.log("DESERIALIZED", deserialized);
-        return deserialized;
+        return deserialized as any;
       },
     }
   )
