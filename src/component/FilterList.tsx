@@ -4,6 +4,7 @@ import { Input } from "../ui/Input";
 import classNames from "classnames";
 import { Filter } from "../lib/store/types";
 import { useStore } from "../lib/store/useStore";
+import { Toggle } from "../ui/Toggle";
 
 const ValueMatchForm: React.FC = () => {
   const selectedPaths = useStore((state) => state.selectedPaths);
@@ -116,6 +117,8 @@ const FilterListItem: React.FC<{ filter: Filter }> = ({ filter }) => {
           </span>
         </div>
         <div>
+          <Toggle enabled={true} />
+
           <button
             className="bg-red-400 hover:bg-red-500 w-10 rounded text-white"
             onClick={() => removeFilter(filter.id)}
