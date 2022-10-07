@@ -1,9 +1,12 @@
 import React from "react";
 import classNames from "classnames";
 
-export const Toggle: React.FC<{ enabled: boolean }> = ({ enabled }) => {
+export const Toggle: React.FC<{ enabled: boolean; onClick: () => void }> = ({
+  enabled,
+  onClick,
+}) => {
   return (
-    <div
+    <button
       className={classNames(
         "rounded-full border-2 border-gray-500 w-6 cursor-pointer",
         {
@@ -11,6 +14,7 @@ export const Toggle: React.FC<{ enabled: boolean }> = ({ enabled }) => {
           "bg-blue-500": enabled,
         }
       )}
+      onClick={onClick}
     >
       <div
         className={classNames("flex w-full items-center", {
@@ -25,6 +29,6 @@ export const Toggle: React.FC<{ enabled: boolean }> = ({ enabled }) => {
           })}
         ></div>
       </div>
-    </div>
+    </button>
   );
 };

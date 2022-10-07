@@ -15,6 +15,7 @@ export type Filter = {
   id: string;
   path: string;
   value: string;
+  enabled: boolean;
   strategy:
     | "contains"
     | "excludes"
@@ -57,8 +58,9 @@ export interface AppStoreFunctions {
   resetConnection: (address: Socket["address"]) => void;
   setSectionCollapsed: (name: string, value: boolean) => void;
   getFilteredLogs: () => Log[];
-  addFilter: (filter: Omit<Filter, "id">) => void;
+  addFilter: (filter: Omit<Filter, "id" | "enabled">) => void;
   removeFilter: (id: Filter["id"]) => void;
+  setFilterEnabled: (id: Filter["id"], value: boolean) => void;
 }
 
 export interface AppStore extends AppStoreData, AppStoreFunctions {}

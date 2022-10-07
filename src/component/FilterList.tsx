@@ -81,11 +81,16 @@ const ValueMatchForm: React.FC = () => {
 
 const FilterListItem: React.FC<{ filter: Filter }> = ({ filter }) => {
   const removeFilter = useStore((state) => state.removeFilter);
+  const setFilterEnabled = useStore((state) => state.setFilterEnabled);
+  const enabled = useStore((state) => state.filters[filter.id].enabled);
 
   return (
     <li
       key={filter.id}
-      className="bg-gray-100 rounded text-gray-800 text-xs font-mono p-1"
+      className={classNames("rounded text-gray-800 text-xs font-mono p-1", {
+        "bg-gray-200": enabled,
+        "bg-gray-400": !enabled,
+      })}
     >
       <div className="flex items-center">
         <div className="flex-grow">
@@ -116,8 +121,11 @@ const FilterListItem: React.FC<{ filter: Filter }> = ({ filter }) => {
             <span className="bg-gray-300 px-1 rounded">{filter.value}</span>
           </span>
         </div>
-        <div>
-          <Toggle enabled={true} />
+        <div className="flex space-x-1">
+          <Toggle
+            enabled={enabled}
+            onClick={() => setFilterEnabled(filter.id, !enabled)}
+          />
 
           <button
             className="bg-red-400 hover:bg-red-500 w-10 rounded text-white"

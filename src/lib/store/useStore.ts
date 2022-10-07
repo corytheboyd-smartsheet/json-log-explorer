@@ -103,7 +103,7 @@ export const useStore = create<AppStore>()(
       },
       getFilteredLogs: () => {
         const { logs, ...state } = get();
-        const filters = Object.values(state.filters);
+        const filters = Object.values(state.filters).filter((f) => f.enabled);
 
         return logs.filter((log) => {
           return filters.every((filter) => {
@@ -147,13 +147,18 @@ export const useStore = create<AppStore>()(
       },
       addFilter: (filter) => {
         const filters = get().filters;
-        const newFilter = { id: v4(), ...filter };
+        const newFilter = { id: v4(), enabled: true, ...filter };
         filters[newFilter.id] = newFilter;
         set({ filters });
       },
       removeFilter: (id) => {
         const filters = get().filters;
         delete filters[id];
+        set({ filters });
+      },
+      setFilterEnabled: (id, value) => {
+        const filters = get().filters;
+        filters[id].enabled = value;
         set({ filters });
       },
     }),
