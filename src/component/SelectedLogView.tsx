@@ -1,5 +1,5 @@
 import React from "react";
-import { useStore } from "../lib/store";
+import { useStore } from "../lib/store/useStore";
 
 export const SelectedLogView: React.FC = () => {
   const selectedLog = useStore((store) => store.selectedLog);

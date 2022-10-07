@@ -1,10 +1,10 @@
 import { PathList } from "./PathList";
 import React from "react";
-import { useStore } from "../lib/store";
 import { FilterList } from "./FilterList";
 import { GlobalActions } from "./GlobalActions";
 import classNames from "classnames";
 import { Connections } from "./Connections";
+import { useStore } from "../lib/store/useStore";
 
 export const Sidebar: React.FC = () => {
   const sidebarCollapsed = useStore((store) => store.sidebarCollapsed);

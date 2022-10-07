@@ -2,8 +2,8 @@ import React, { FormEventHandler } from "react";
 import { SidebarSection } from "../ui/SidebarSection";
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
-import { useStore } from "../lib/store";
 import classNames from "classnames";
+import { useStore } from "../lib/store/useStore";
 
 const AddConnection: React.FC = () => {
   const addConnection = useStore((state) => state.addConnection);

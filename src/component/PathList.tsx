@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
-import { useStore } from "../lib/store";
 import { Button } from "../ui/Button";
 import { SidebarSection } from "../ui/SidebarSection";
 import classNames from "classnames";
 import { Input } from "../ui/Input";
+import { useStore } from "../lib/store/useStore";
 
 const Path: React.FC<{ path: string }> = ({ path }) => {
   const addSelectedPath = useStore((store) => store.addSelectedPath);

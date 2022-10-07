@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useStore } from "../lib/store";
+import React from "react";
+import { useStore } from "../lib/store/useStore";
 
 export const SidebarSection: React.FC<
   React.PropsWithChildren & { title: string }

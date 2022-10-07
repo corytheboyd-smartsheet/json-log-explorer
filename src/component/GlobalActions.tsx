@@ -1,7 +1,7 @@
 import { Button } from "../ui/Button";
 import React, { useCallback } from "react";
-import { useStore } from "../lib/store";
 import { SidebarSection } from "../ui/SidebarSection";
+import { useStore } from "../lib/store/useStore";
 
 export const GlobalActions: React.FC = () => {
   const sidebarCollapsed = useStore((store) => store.sidebarCollapsed);
@@ -25,16 +25,10 @@ export const GlobalActions: React.FC = () => {
       <div className="space-y-2">
         {sidebarCollapsed && (
           <>
-            <Button
-              buttonClassNames="bg-amber-500"
-              onClick={handleShowSidebar}
-            >
+            <Button buttonClassNames="bg-amber-500" onClick={handleShowSidebar}>
               👉
             </Button>
-            <Button
-              buttonClassNames="bg-red-400"
-              onClick={handleClearLogs}
-            >
+            <Button buttonClassNames="bg-red-400" onClick={handleClearLogs}>
               🔥
             </Button>
           </>
@@ -42,10 +36,7 @@ export const GlobalActions: React.FC = () => {
 
         {!sidebarCollapsed && (
           <>
-            <Button
-              buttonClassNames="bg-red-500"
-              onClick={handleClearLogs}
-            >
+            <Button buttonClassNames="bg-red-500" onClick={handleClearLogs}>
               Delete All Logs 🔥
             </Button>
             <Button

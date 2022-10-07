@@ -1,8 +1,9 @@
-import React, { FormEvent, FormEventHandler } from "react";
+import React, { FormEventHandler } from "react";
 import { SidebarSection } from "../ui/SidebarSection";
-import { Filter, useStore } from "../lib/store";
 import { Input } from "../ui/Input";
 import classNames from "classnames";
+import { Filter } from "../lib/store/types";
+import { useStore } from "../lib/store/useStore";
 
 const ValueMatchForm: React.FC = () => {
   const selectedPaths = useStore((state) => state.selectedPaths);
