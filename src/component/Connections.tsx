@@ -72,7 +72,7 @@ const ConnectionList: React.FC = () => {
                       "bg-yellow-500 animate-ping":
                         connection.status === "initial",
                       "bg-green-500": connection.status === "open",
-                      "bg-red-500": connection.status === "closed",
+                      "bg-red-500 animate-ping": connection.status === "closed",
                     })}
                   ></div>
                   <div className="flex-grow">{connection.socket.address}</div>
