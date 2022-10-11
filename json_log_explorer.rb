@@ -1,4 +1,4 @@
-cask "json-log_explorer" do
+cask "json_log_explorer" do
     version :latest
     sha256 :no_check
 
@@ -7,5 +7,5 @@ cask "json-log_explorer" do
     desc "A UI for exploring JSON logs"
     homepage "https://github.com/corytheboyd-smartsheet/json-log-explorer"
 
-    binary ""
+    binary "server", target: 'json-log-explorer'
 end
