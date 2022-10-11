@@ -6,4 +6,6 @@ cask "json-log_explorer" do
     name "json-log-explorer"
     desc "A UI for exploring JSON logs"
     homepage "https://github.com/corytheboyd-smartsheet/json-log-explorer"
+
+    binary ""
 end

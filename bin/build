@@ -2,6 +2,14 @@
 
 set -euo pipefail
 
+version="$(cat VERSION.txt)"
+git_head_sha="$(git rev-list -1 HEAD)"
+
+echo '================'
+echo version = \'"$version"\'
+echo git_head_sha = \'"$git_head_sha"\'
+echo '================'
+
 mkdir -p dist
 rm -rf dist/**/*
 
@@ -14,7 +22,7 @@ rm -rf dist/**/*
 
 (
   cd server
-  go build -o ../dist/server main.go
+  go build -ldflags "-X main.Version=$version -X main.GitHeadSha=$git_head_sha" -o ../dist/bin/server main.go
 ) \
   &
 
