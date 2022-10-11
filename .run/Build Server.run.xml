@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Build Server" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="json-log-explorer" />
+    <working_directory value="$PROJECT_DIR$/server" />
+    <go_parameters value="-o build/server" />
+    <kind value="FILE" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/server/main.go" />
+    <option name="run" value="false" />
+    <method v="2" />
+  </configuration>
+</component>

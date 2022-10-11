@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+version="$(cat VERSION.txt)"
+release_file_name="json-log-explorer.tar.gz"
+tag_name="v$version"
+repo_full_name="corytheboyd-smartsheet/json-log-explorer"
+
+echo '================'
+echo version = \'"$version"\'
+echo release_file_name = \'"$release_file_name"\'
+echo tag_name = \'"$tag_name"\'
+echo repo_full_name = \'"$repo_full_name"\'
+echo '================'
+
+(
+  cd dist
+  tar -czf "$release_file_name" public server
+)
+mkdir -p release
+mv "dist/$release_file_name" release
+
+gh release create "$tag_name" "release/$release_file_name" --notes "$tag_name"

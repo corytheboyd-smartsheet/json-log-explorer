@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+mkdir -p dist
+rm -rf dist/**/*
+
+(
+  cd ui
+  export BUILD_PATH=../dist/public
+  npm run build
+) \
+  &
+
+(
+  cd server
+  go build -o ../dist/server main.go
+) \
+  &
+
+wait
