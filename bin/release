@@ -16,7 +16,7 @@ echo '================'
 
 (
   cd dist
-  tar -czf "$release_file_name" public server
+  tar -cvzf "$release_file_name" public bin
 )
 mkdir -p release
 mv "dist/$release_file_name" release
