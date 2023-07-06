@@ -28,6 +28,7 @@ export const useStore = create<AppStore>()(
         getPaths(map).forEach((path) => newPaths.add(path));
 
         const log = {
+          id: v4(),
           raw: raw,
           data: map,
         };

@@ -52,7 +52,7 @@ const LogTable: React.FC = () => {
     if (!selectedLog) {
       return false;
     }
-    return selectedLog.data.get("ts") === log.data.get("ts");
+    return selectedLog.id === log.id;
   };
 
   return (

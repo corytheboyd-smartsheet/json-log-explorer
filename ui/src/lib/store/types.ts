@@ -2,6 +2,7 @@ import { JsonObject } from "../jsonTypes";
 import { Socket } from "../Socket";
 
 export type Log = {
+  id: string;
   raw: Object;
   data: JsonObject;
 };
